@@ -35,6 +35,8 @@ var i_ctx = inputCanvas.getContext('2d');
 //globals for the options
 var outputSizeMultiplier = 2;
 var cellSize = 20;
+var colorSampleRadius = 1;
+var drawCells = false;
 var sliceCount = 1;
 
 //globals for the output
@@ -69,7 +71,7 @@ function handleImage(e){
 	//define a cell
 	function cell (xStart, yStart) {
 		this.x = xStart;
-		this.y = yStart;	
+		this.y = yStart;
 	}
 	
 	
@@ -102,8 +104,68 @@ function handleImage(e){
 		for (var i = 0; i < cells.length; i++)
 		{
 			var c = cells[i];
-			o_ctx.strokeRect(c.x, c.y, cellSize, cellSize);
+			
+			if (drawCells)
+			{
+				o_ctx.strokeRect(c.x, c.y, cellSize, cellSize);
+				
+				//draw bisection
+				o_ctx.beginPath();
+				o_ctx.moveTo(c.x, c.y);
+				o_ctx.lineTo(c.x + cellSize, c.y + cellSize);
+				o_ctx.stroke();
+			}
+			
+			//draw triangle bottom
+			o_ctx.fillStyle = getPointColorBottom(c);
+			o_ctx.beginPath();
+			o_ctx.moveTo(c.x, c.y-1);
+			o_ctx.lineTo(c.x + cellSize+1, c.y + cellSize);
+			o_ctx.lineTo(c.x, c.y + cellSize);
+			o_ctx.closePath();
+			o_ctx.fill();
+			
+			//draw triangle top
+			o_ctx.fillStyle = getPointColorTop(c);
+			o_ctx.beginPath();
+			o_ctx.moveTo(c.x, c.y);
+			o_ctx.lineTo(c.x + cellSize, c.y + cellSize);
+			o_ctx.lineTo(c.x + cellSize, c.y);
+			o_ctx.closePath();
+			o_ctx.fill();
 		}
+		
+	}
+	
+	function getPointColorBottom (c)
+	{
+		var centroidX = getTriangleCentroidCoordinate(c.x, c.x + cellSize, c.x);
+		var centroidY = getTriangleCentroidCoordinate(c.y, c.y + cellSize, c.y + cellSize);
+		var p = i_ctx.getImageData(centroidX, centroidY, 1, 1).data; 
+		var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+		return hex;
+	}
+	
+		function getPointColorTop (c)
+	{
+		var centroidX = getTriangleCentroidCoordinate(c.x, c.x + cellSize, c.x + cellSize);
+		var centroidY = getTriangleCentroidCoordinate(c.y, c.y + cellSize, c.y);
+		var p = i_ctx.getImageData(centroidX, centroidY, 1, 1).data; 
+		var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+		return hex;
+	}
+	
+	function getTriangleCentroidCoordinate(n1, n2, n3)
+	{
+		var result = Math.round((n1+n2+n3)/3);
+		return result;
+	}
+	
+	function rgbToHex(r, g, b) 
+	{
+    if (r > 255 || g > 255 || b > 255)
+        throw "Invalid color component";
+    return ((r << 16) | (g << 8) | b).toString(16);
 	}
 	
 	
