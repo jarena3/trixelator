@@ -26,6 +26,7 @@
  
  
  $(document).ready(function() {
+	 
 //globals for for the source
 var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
@@ -33,18 +34,34 @@ var inputCanvas = document.getElementById('inputCanvas');
 var i_ctx = inputCanvas.getContext('2d');
 
 //globals for the options
-var outputSizeMultiplier = 2;
+var outputSizeMultiplier = 1;
 var cellSize = 20;
 var colorSampleRadius = 1;
 var drawCells = false;
 var sliceCount = 1;
 
 //globals for the output
-
+var cellSize;
 var outputCanvas = document.getElementById('outputCanvas');
 var o_ctx = outputCanvas.getContext('2d');
-var output_pixel_width = inputCanvas.width * outputSizeMultiplier;
-var output_pixel_height = inputCanvas.height * outputSizeMultiplier;
+
+
+//init sliders
+	var cs_slider = $('#cell-size-slider').slider({
+		formatter: function(value) {
+			return 'Current value: ' + value;
+		}
+	}).on("slide", function(slideEvt) {
+		cellSize = (slideEvt.value);
+	});
+
+	var os_slider = $('#output-size-slider').slider({
+		formatter: function(value) {
+			return 'Current value: ' + value;
+		}
+	}).on("slide", function(slideEvt) {
+		outputSizeMultiplier = (slideEvt.value);
+	});
 
 
 //get image from loader
@@ -53,8 +70,8 @@ function handleImage(e){
     reader.onload = function(event){
         var img = new Image();
         img.onload = function(){
-            inputCanvas.width = outputCanvas.width = img.width;
-            inputCanvas.height = outputCanvas.height = img.height;
+            inputCanvas.width = img.width;
+            inputCanvas.height = img.height;
             i_ctx.drawImage(img,0,0);
         }
         img.src = event.target.result;
@@ -63,7 +80,15 @@ function handleImage(e){
 }
 
     $("#render").click(function(){
-		invert_color_test();
+		
+		console.log("!!!");
+		
+		outputCanvas.width = inputCanvas.width;
+		outputCanvas.height = inputCanvas.height;
+
+
+		console.log("!!!");
+				
 		draw_output_cells();
     }); 
 	
@@ -95,8 +120,7 @@ function handleImage(e){
 		console.log(cells.length);
 		
 		draw_cells(cells);
-
-		
+	
 	}
 	
 	function draw_cells(cells)
@@ -168,24 +192,5 @@ function handleImage(e){
     return ((r << 16) | (g << 8) | b).toString(16);
 	}
 	
-	
-/*-----testing ---------------*/
-	function invert_color_test() {
-		
-		// Get the CanvasPixelArray from the given coordinates and dimensions.
-		var imgd = i_ctx.getImageData(0, 0, inputCanvas.width, inputCanvas.height);
-		var pix = imgd.data;
-
-		// Loop over each pixel and invert the color.
-		for (var i = 0, n = pix.length; i < n; i += 4) {
-			pix[i  ] = 255 - pix[i  ]; // red
-			pix[i+1] = 255 - pix[i+1]; // green
-			pix[i+2] = 255 - pix[i+2]; // blue
-			// i+3 is alpha (the fourth element)
-		}
-
-		// Draw the ImageData at the given (x,y) coordinates.
-		o_ctx.putImageData(imgd, 0, 0);
-	}
 	
 });
