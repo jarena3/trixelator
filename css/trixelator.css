@@ -1,0 +1,61 @@
+.jumbotron {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	alignment-baseline: central;
+}
+
+body {
+	background-color: #18637F;
+}
+
+[class*="col-"] {
+  padding-top: 10px;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  float: none;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#google-btn {
+
+  width: 100%;
+  text-align: center;
+}
+
+#cell-size-input {
+        float: left !important;
+        width: 50% !important;
+}
+
+#cell-details-input{
+        float: right !important;
+        width: 50% !important;
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
+#ex1Slider .slider-selection {
+	background: #BABABA;
+}
