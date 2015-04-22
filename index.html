@@ -26,6 +26,16 @@
 <!-- Google -->
 <link href='http://fonts.googleapis.com/css?family=Coda:400,200' rel='stylesheet' type='text/css'>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=818399861580732";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
  
 <!--[if lt IE 7]><p class=chromeframe>Your browser is super old. <a href="http://browsehappy.com/">Update your browser.</a></p><![endif]-->
 
@@ -40,6 +50,10 @@
 			<div class="g-plusone" data-size="standard" data-annotation="bubble" data-width="120"></div>
 		</div>
 		<!-- Place this tag after the last +1 button tag. -->
+		<div id="facebook-btn">
+			<div class="fb-like" data-href="http://jarena3.github.io/trixelator/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+		</div>
+		
   </div>
 </div>
 
@@ -101,53 +115,71 @@
 				</div>
 				<div class="col-lg-4" id="cell-details-input">			
 					<div class="panel panel-primary">
-						<div class="panel-heading">Triangulation Cell Shape</div>
+						<div class="panel-heading">Cell Shape</div>
 						<div class="panel-body">
 							<div class="btn-group" data-toggle="buttons">
 								<label class="btn btn-default active">
-									<input type="radio" name="options" id="option1" autocomplete="off" checked> Square
+									<input type="radio" name="shapes" id="option1" autocomplete="off" checked> Square
 								</label>
 								<label class="btn btn-default disabled">
-									<input type="radio" name="options" id="option2" autocomplete="off"> Hexagonal
+									<input type="radio" name="shapes" id="option2" autocomplete="off"> Hexagon (Vertical Tile)
 								</label>
 								<label class="btn btn-default disabled">
-									<input type="radio" name="options" id="option3" autocomplete="off"> Voronoi
+									<input type="radio" name="shapes" id="option2" autocomplete="off"> Hexagon (Horizontal Tile)
+								</label>
+								<label class="btn btn-default disabled">
+									<input type="radio" name="shapes" id="option3" autocomplete="off"> Voronoi Cells
 								</label>
 							</div>
 						</div>
 					</div>		
-					
-					<div class="panel panel-primary">
-						<div class="panel-heading">Bisections</div>
-						<div class="panel-body">
-							<div class="btn-group" data-toggle="buttons">
-								<label class="btn btn-default active">
-									<input type="radio" name="options" id="option1" autocomplete="off" checked> One
-								</label>
-								<label class="btn btn-default disabled">
-									<input type="radio" name="options" id="option2" autocomplete="off"> Two 
-								</label>
-								<label class="btn btn-default disabled">
-									<input type="radio" name="options" id="option3" autocomplete="off"> Three
-								</label>
+					<div class="col-lg-6" id="cell-details-input">	
+						<div class="panel panel-primary">
+							<div class="panel-heading">Bisectors</div>
+								<div class="panel-body">
+									<div class="btn-group-xs" data-toggle="buttons">
+										<label class="btn btn-default active">
+											<input type="radio" name="options" id="option1" autocomplete="off" checked> One
+										</label>
+										<label class="btn btn-default disabled">
+											<input type="radio" name="options" id="option2" autocomplete="off"> Two 
+										</label>
+										<label class="btn btn-default disabled">
+											<input type="radio" name="options" id="option3" autocomplete="off"> Three
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>							
+						<div class="col-lg-6" id="cell-details-input">	
+							<div class="panel panel-primary">
+								<div class="panel-heading">Bisector Direction</div>
+									<div class="panel-body">
+										<div class="btn-group-xs" data-toggle="buttons">
+											<label class="btn btn-default active">
+												<input type="radio" name="options" id="option1" autocomplete="off" checked> Counterclockwise
+											</label>
+											<label class="btn btn-default disabled">
+												<input type="radio" name="options" id="option2" autocomplete="off"> Clockwise 
+											</label>
+											<label class="btn btn-default disabled">
+												<input type="radio" name="options" id="option3" autocomplete="off"> Random
+											</label>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>	
 				</div>
-			</div>
+			
 			
 
 	</div>		
 			
 	<div>		
 		<hr>
-		<a id="render" class="btn btn-lg btn-primary btn-block" href="#" role="button">Trixelate!</a>
+		<a id="render" class="btn btn-lg btn-primary btn-block" role="button"><span id="render-span"></span>Trixelate!</a>
 		<hr>
-		<div class="progress">
-		  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-			<span>Trixelating...</span>
-		  </div>
-		</div>
 	</div>
 
 	<!--///--output---------------------------------------------->	

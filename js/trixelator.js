@@ -27,7 +27,7 @@
  
  $(document).ready(function() {
 	 
-//globals for for the source
+//globals for the source
 var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
 var inputCanvas = document.getElementById('inputCanvas');
@@ -81,13 +81,8 @@ function handleImage(e){
 
     $("#render").click(function(){
 		
-		console.log("!!!");
-		
 		outputCanvas.width = inputCanvas.width;
 		outputCanvas.height = inputCanvas.height;
-
-
-		console.log("!!!");
 				
 		draw_output_cells();
     }); 
@@ -104,6 +99,10 @@ function handleImage(e){
 	function draw_output_cells(){
 		var cells=[];
 		var source = i_ctx.getImageData(0, 0, inputCanvas.width, inputCanvas.height);
+
+		$('#render-span').addClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+		$('#render').text("Working...");		
+		
 		
 		//calculate the output grid
 		var grid_length = Math.round(source.width / cellSize);
@@ -113,18 +112,23 @@ function handleImage(e){
 		{
 			for (var y = 0; y < grid_height; y++)
 			{
-				cells.push(new cell(x*cellSize, y*cellSize));
+				cells.push(new cell(x*cellSize, y*cellSize));			
 			}
 		}
 		
+
 		console.log(cells.length);
 		
 		draw_cells(cells);
-	
+		
+		$('#render-span').removeClass("glyphicon glyphicon-refresh glyphicon-refresh-animate");
+		$('#render').text("Trixelate!");
+
 	}
 	
 	function draw_cells(cells)
 	{
+		
 		for (var i = 0; i < cells.length; i++)
 		{
 			var c = cells[i];
@@ -157,6 +161,7 @@ function handleImage(e){
 			o_ctx.lineTo(c.x + cellSize, c.y);
 			o_ctx.closePath();
 			o_ctx.fill();
+			
 		}
 		
 	}
