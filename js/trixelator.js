@@ -32,6 +32,9 @@ var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
 var inputCanvas = document.getElementById('inputCanvas');
 var i_ctx = inputCanvas.getContext('2d');
+var thumbnailCanvas = document.getElementById('thumbnailCanvas');
+var t_ctx = thumbnailCanvas.getContext('2d');
+var inputImage;
 
 //globals for the options
 var outputSizeMultiplier = 1;
@@ -39,6 +42,7 @@ var cellSize = 20;
 var colorSampleRadius = 1;
 var drawCells = false;
 var sliceCount = 1;
+var bisectDirection = "bis-ccw";
 
 //globals for the output
 var cellSize;
@@ -67,22 +71,35 @@ var o_ctx = outputCanvas.getContext('2d');
 //get image from loader
 function handleImage(e){
     var reader = new FileReader();
+	var canvasExtents = $('#preview').width();
+	
     reader.onload = function(event){
-        var img = new Image();
-        img.onload = function(){
-            inputCanvas.width = img.width;
-            inputCanvas.height = img.height;
-            i_ctx.drawImage(img,0,0);
+        inputImage = new Image();
+        inputImage.onload = function(){
+			
+            inputCanvas.width = thumbnailCanvas.width = inputImage.width;
+            inputCanvas.height = thumbnailCanvas.height = inputImage.height;
+			i_ctx.drawImage(inputImage,0,0);
+			inputCanvas.style.display="none";
+			
+			if (thumbnailCanvas.width > canvasExtents)
+			{
+				//do something
+			}
+			
+			t_ctx.scale(0.5,0.5);
+            t_ctx.drawImage(inputImage,0,0);
         }
-        img.src = event.target.result;
+		
+        inputImage.src = event.target.result;
     }
     reader.readAsDataURL(e.target.files[0]);     
 }
 
     $("#render").click(function(){
 		
-		outputCanvas.width = inputCanvas.width;
-		outputCanvas.height = inputCanvas.height;
+		outputCanvas.width = inputImage.width;
+		outputCanvas.height = inputImage.height;
 				
 		draw_output_cells();
     }); 
@@ -144,26 +161,52 @@ function handleImage(e){
 				o_ctx.stroke();
 			}
 			
-			//draw triangle bottom
-			o_ctx.fillStyle = getPointColorBottom(c);
-			o_ctx.beginPath();
-			o_ctx.moveTo(c.x, c.y-1);
-			o_ctx.lineTo(c.x + cellSize+1, c.y + cellSize);
-			o_ctx.lineTo(c.x, c.y + cellSize);
-			o_ctx.closePath();
-			o_ctx.fill();
+			switch (bisectDirection)
+			{
+				case ("bis-ccw"):
+					//draw triangle bottom
+					o_ctx.fillStyle = getPointColorBottom(c);
+					o_ctx.beginPath();
+					o_ctx.moveTo(c.x, c.y-1);
+					o_ctx.lineTo(c.x + cellSize+1, c.y + cellSize);
+					o_ctx.lineTo(c.x, c.y + cellSize);
+					o_ctx.closePath();
+					o_ctx.fill();
+					
+					//draw triangle top
+					o_ctx.fillStyle = getPointColorTop(c);
+					o_ctx.beginPath();
+					o_ctx.moveTo(c.x, c.y);
+					o_ctx.lineTo(c.x + cellSize, c.y + cellSize);
+					o_ctx.lineTo(c.x + cellSize, c.y);
+					o_ctx.closePath();
+					o_ctx.fill();
+					break;
+				case ("bis-cw"):
+					break;
+				case ("bis-rnd"):
+					break;
+				default:
+					alert("ERROR: malformed bisect direction request!")
+					break;				
+			}
 			
-			//draw triangle top
-			o_ctx.fillStyle = getPointColorTop(c);
-			o_ctx.beginPath();
-			o_ctx.moveTo(c.x, c.y);
-			o_ctx.lineTo(c.x + cellSize, c.y + cellSize);
-			o_ctx.lineTo(c.x + cellSize, c.y);
-			o_ctx.closePath();
-			o_ctx.fill();
+			
+
 			
 		}
 		
+	}
+	//TODO!!
+	function drawTriangle (a, b, c)
+	{
+		o_ctx.fillStyle = getPointColorBottom(c);
+		o_ctx.beginPath();
+		o_ctx.moveTo(c.x, c.y-1);
+		o_ctx.lineTo(c.x + cellSize+1, c.y + cellSize);
+		o_ctx.lineTo(c.x, c.y + cellSize);
+		o_ctx.closePath();
+		o_ctx.fill();	
 	}
 	
 	function getPointColorBottom (c)
@@ -175,7 +218,7 @@ function handleImage(e){
 		return hex;
 	}
 	
-		function getPointColorTop (c)
+	function getPointColorTop (c)
 	{
 		var centroidX = getTriangleCentroidCoordinate(c.x, c.x + cellSize, c.x + cellSize);
 		var centroidY = getTriangleCentroidCoordinate(c.y, c.y + cellSize, c.y);

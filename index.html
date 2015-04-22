@@ -11,9 +11,6 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     
-<!-- Dropzone -->
-<script src="js/dropzone.js"></script>
-
 <!-- Bootstrap Slider -->
 <script src="js/bootstrap-slider.js"></script>
 <link rel="stylesheet" href="css/bootstrap-slider.css">
@@ -22,6 +19,8 @@
 <script src="js/trixelator.js"></script>
 <script src="js/trixelator-page.js"></script>
 <link href="css/trixelator.css" rel="stylesheet" type="text/css">
+
+
 
 <!-- Google -->
 <link href='http://fonts.googleapis.com/css?family=Coda:400,200' rel='stylesheet' type='text/css'>
@@ -54,22 +53,21 @@
 			<div class="fb-like" data-href="http://jarena3.github.io/trixelator/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 		</div>
 		
-  </div>
-</div>
+ </div>
 
 <!--///--body------------------------------------------------>
 <body>
-	<div class="col-md-10 col-centered">	
+<div class="col-md-10 col-md-offset-1" id="col-body">
 	<!--///--input----------------------------------------------->
 
 
-	<div class="input">
-		<div class="col-lg-6 col-sm-6 col-12">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
             <h4>Select Image</h4>
             <div class="input-group">
                 <span class="input-group-btn">
                     <span class="btn btn-primary btn-file">
-                        Browse&hellip; <input type="file" id="imageLoader" name="imageLoader"/>
+                        Browse&hellip; <input type="file" class="drop-area" id="imageLoader" name="imageLoader"/>
                     </span>
                 </span>
                 <input type="text" class="form-control" readonly>
@@ -77,108 +75,106 @@
             <span class="help-block">
                 Large files will take a while to trixelate.
             </span>
-			
-			<br>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" id="preview">
 			<canvas id="inputCanvas"></canvas>
-			<br>
-        </div>
-		
-		
+			<canvas id="thumbnailCanvas"></canvas>
+		</div>
 	</div>
 
 	<!--///--options--------------------------------------------->
+<div class="container-fluid">
 
-		<div class="options">
-			<div class="row">
-				<div class="col-lg-4" id="cell-size-input">
-					<div class="panel panel-primary">
-						<div class="panel-heading">Cell Size</div>
-						<div class="panel-body">
-						<br>
-							<input id="cell-size-slider" data-slider-id='cs-slider' type="text" data-slider-min="5" data-slider-max="50" data-slider-step="1" data-slider-value="20"/>
 
-						</div>
-					</div>
-
-					<div class="panel panel-primary">
-						<div class="panel-heading">Output Image Size</div>
-						<div class="panel-body">
-						<br>
-							<input id="output-size-slider" data-slider-id='os-slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1"/>
-
-						</div>
-					</div>					
-					
-					
-
-					
+	<div class="row">
+		<div class="col-md-6">
+			<div id="cs_in" class="panel panel-primary">
+				<div class="panel-heading">Cell Size</div>
+				<div class="panel-body">
+					<input id="cell-size-slider" data-slider-id='cs-slider' type="text" data-slider-min="5" data-slider-max="50" data-slider-step="1" data-slider-value="20"/>
 				</div>
-				<div class="col-lg-4" id="cell-details-input">			
-					<div class="panel panel-primary">
-						<div class="panel-heading">Cell Shape</div>
-						<div class="panel-body">
-							<div class="btn-group" data-toggle="buttons">
-								<label class="btn btn-default active">
-									<input type="radio" name="shapes" id="option1" autocomplete="off" checked> Square
-								</label>
-								<label class="btn btn-default disabled">
-									<input type="radio" name="shapes" id="option2" autocomplete="off"> Hexagon (Vertical Tile)
-								</label>
-								<label class="btn btn-default disabled">
-									<input type="radio" name="shapes" id="option2" autocomplete="off"> Hexagon (Horizontal Tile)
-								</label>
-								<label class="btn btn-default disabled">
-									<input type="radio" name="shapes" id="option3" autocomplete="off"> Voronoi Cells
-								</label>
-							</div>
-						</div>
-					</div>		
-					<div class="col-lg-6" id="cell-details-input">	
-						<div class="panel panel-primary">
-							<div class="panel-heading">Bisectors</div>
-								<div class="panel-body">
-									<div class="btn-group-xs" data-toggle="buttons">
-										<label class="btn btn-default active">
-											<input type="radio" name="options" id="option1" autocomplete="off" checked> One
-										</label>
-										<label class="btn btn-default disabled">
-											<input type="radio" name="options" id="option2" autocomplete="off"> Two 
-										</label>
-										<label class="btn btn-default disabled">
-											<input type="radio" name="options" id="option3" autocomplete="off"> Three
-										</label>
-									</div>
-								</div>
-							</div>
-						</div>							
-						<div class="col-lg-6" id="cell-details-input">	
-							<div class="panel panel-primary">
-								<div class="panel-heading">Bisector Direction</div>
-									<div class="panel-body">
-										<div class="btn-group-xs" data-toggle="buttons">
-											<label class="btn btn-default active">
-												<input type="radio" name="options" id="option1" autocomplete="off" checked> Counterclockwise
-											</label>
-											<label class="btn btn-default disabled">
-												<input type="radio" name="options" id="option2" autocomplete="off"> Clockwise 
-											</label>
-											<label class="btn btn-default disabled">
-												<input type="radio" name="options" id="option3" autocomplete="off"> Random
-											</label>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div id="os_in" class="panel panel-primary">
+				<div class="panel-heading">Output Image Size</div>
+				<div class="panel-body">
+					<input id="output-size-slider" data-slider-id='os-slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1"/>
 				</div>
-			
-			
-
+			</div>					
+		</div>	
 	</div>		
+
+	<div class="row">
+		<div class="col-md-4" id="cell-details-input">			
+			<div class="panel panel-primary">
+				<div class="panel-heading">Cell Shape</div>
+				<div class="panel-body">
+					<div class="btn-group-xs" data-toggle="buttons">
+						<label class="btn btn-default active">
+							<input type="radio" name="shapes" id="option1" autocomplete="off" checked> Square
+						</label>
+						<label class="btn btn-default disabled">
+							<input type="radio" name="shapes" id="option2" autocomplete="off"> Vertical Hex
+						</label>
+						<label class="btn btn-default disabled">
+							<input type="radio" name="shapes" id="option2" autocomplete="off"> Horizontal Hex
+						</label>
+						<label class="btn btn-default disabled">
+							<input type="radio" name="shapes" id="option3" autocomplete="off"> Voronoi
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4" id="cell-details-input">	
+			<div class="panel panel-primary">
+				<div class="panel-heading">Bisectors</div>
+				<div class="panel-body">
+					<div class="btn-group-xs" data-toggle="buttons">
+						<label class="btn btn-default active">
+							<input type="radio" name="bisect-count" id="bis-1" autocomplete="off" checked> One
+						</label>
+						<label class="btn btn-default disabled">
+							<input type="radio" name="bisect-count" id="bis-2" autocomplete="off"> Two 
+						</label>
+						<label class="btn btn-default disabled">
+							<input type="radio" name="bisect-count" id="bis-3" autocomplete="off"> Three
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>							
+		<div class="col-md-4" id="cell-details-input">	
+			<div class="panel panel-primary">
+				<div class="panel-heading">Bisector Direction</div>
+				<div class="panel-body">
+					<div class="btn-group-xs" data-toggle="buttons">
+						<label class="btn btn-default active">
+							<input type="radio" name="bisect-dir" id="bis-ccw" autocomplete="off" checked> Counterclockwise
+						</label>
+						<label class="btn btn-default disabled">
+							<input type="radio" name="bisect-dir" id="bis-cw" autocomplete="off"> Clockwise 
+						</label>
+						<label class="btn btn-default disabled">
+							<input type="radio" name="bisect-dir" id="bis-rnd" autocomplete="off"> Random
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+			
+
+<br>	
 			
 	<div>		
 		<hr>
-		<a id="render" class="btn btn-lg btn-primary btn-block" role="button"><span id="render-span"></span>Trixelate!</a>
+		<a id="render" class="btn btn-md btn-primary btn-block" role="button"><span id="render-span"></span>Trixelate!</a>
 		<hr>
 	</div>
 
@@ -187,5 +183,5 @@
 		<br><br>
 			<canvas id="outputCanvas"></canvas>
 		</div>
-	
+</div>
 </body>
