@@ -27,6 +27,9 @@
  
  $(document).ready(function() {
 
+ var dbtnDiv = document.getElementById("d-btn-div");
+ dbtnDiv.style.display="none";
+ 
 //get these tooltips up ins 
  $(function () {
   $('[data-toggle="tooltip"]').tooltip()
@@ -38,8 +41,8 @@ var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
 var inputCanvas = document.getElementById('inputCanvas');
 var i_ctx = inputCanvas.getContext('2d');
-var thumbnailCanvas = document.getElementById('thumbnailCanvas');
-var t_ctx = thumbnailCanvas.getContext('2d');
+var inputPreviewCanvas = document.getElementById('inputPreviewCanvas');
+var ip_ctx = inputPreviewCanvas.getContext('2d');
 var inputImage;
 
 //globals for the options
@@ -55,6 +58,10 @@ var noisePattern;
 var cellSize;
 var outputCanvas = document.getElementById('outputCanvas');
 var o_ctx = outputCanvas.getContext('2d');
+var outputPreviewCanvas = document.getElementById('outputPreviewCanvas');
+var op_ctx = outputPreviewCanvas.getContext('2d');
+var scaledCanvas = document.getElementById('scaledCanvas');
+var s_ctx = scaledCanvas.getContext('2d');
 
 
 //init sliders
@@ -80,18 +87,24 @@ function handleImage(e){
         inputImage = new Image();
         inputImage.onload = function(){
 			
-            inputCanvas.width = thumbnailCanvas.width = inputImage.width;
-            inputCanvas.height = thumbnailCanvas.height = inputImage.height;
+            inputCanvas.width = inputPreviewCanvas.width = inputImage.width;
+            inputCanvas.height = inputPreviewCanvas.height = inputImage.height;
 			i_ctx.drawImage(inputImage,0,0);
 			inputCanvas.style.display="none";
 			
-			if (thumbnailCanvas.width > canvasExtents)
+			if (inputPreviewCanvas.width > canvasExtents)
 			{
-				//do something
+				var scaleFactor = canvasExtents / inputPreviewCanvas.width;
+				inputPreviewCanvas.width = inputImage.width * scaleFactor;
+				inputPreviewCanvas.height = inputImage.height * scaleFactor;
+				ip_ctx.drawImage(inputImage, 0, 0, inputPreviewCanvas.width, inputPreviewCanvas.height);
+			}
+			else 
+			{
+				ip_ctx.drawImage(inputImage, 0, 0);
 			}
 			
-		//	t_ctx.scale(0.5,0.5);
-            t_ctx.drawImage(inputImage,0,0);
+
         }
 		
         inputImage.src = event.target.result;
@@ -99,21 +112,57 @@ function handleImage(e){
     reader.readAsDataURL(e.target.files[0]);     
 }
 
-    $("#render").click(function(){
+$("#render").click(function()
+{
+	
+	dbtnDiv.style.display="initial";
+	
+	cellSize = $('#cell-size-slider').slider().slider('getValue');
+	outputSizeMultiplier = $('#output-size-slider').slider().slider('getValue');
+	
+	outputCanvas.width = inputImage.width;
+	outputCanvas.height = inputImage.height;
 		
-		cellSize = $('#cell-size-slider').slider().slider('getValue');
-		outputSizeMultiplier = os_slider;
-		
-		outputCanvas.width = inputImage.width;
-		outputCanvas.height = inputImage.height;
-		
-		bisectDirection = $('input[name="bisect-dir"]:checked').val();
-		
-		//if noise
-		var noiseImg = document.getElementById("noise");
-		noisePattern = o_ctx.createPattern(noiseImg, "repeat");
-				
-		draw_output_cells();
+	bisectDirection = $('input[name="bisect-dir"]:checked').val();
+	
+	var noiseImg = document.getElementById("noise");
+	noisePattern = o_ctx.createPattern(noiseImg, "repeat");
+			
+	draw_output_cells();
+	
+	var canvasExtents = $('#col-body').width();
+	outputPreviewCanvas.width = outputCanvas.width;
+	outputPreviewCanvas.height = outputPreviewCanvas.height;
+	//copy image from hidden output canvas to output preview
+	
+	if (outputPreviewCanvas.width > canvasExtents)
+	{
+		var scaleFactor = canvasExtents / outputPreviewCanvas.width;
+		outputPreviewCanvas.width = outputCanvas.width * scaleFactor;
+		outputPreviewCanvas.height = outputCanvas.height * scaleFactor;
+		op_ctx.drawImage(outputCanvas,0,0, outputPreviewCanvas.width, outputPreviewCanvas.height);
+	}
+	else
+	{
+		op_ctx.drawImage(outputCanvas,0,0);
+	}
+	/*
+	scaledCanvas.width = outputCanvas.width * outputSizeMultiplier;
+	scaledCanvas.height = outputCanvas.height * outputSizeMultiplier;
+	s_ctx.drawImage(outputCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+	*/
+	
+	//pop download button
+	resString = "" + outputCanvas.width + "x" + outputCanvas.height;
+	
+	$('#download-button').text("Download full resolution version (" + resString + "px)");
+	
+	var dBtn = document.getElementById('d-btn');
+	dBtn.addEventListener('click', function (e) {
+		var dataURL = outputCanvas.toDataURL('image/png');
+			dBtn.href = dataURL;
+});
+
     }); 
 	
 	//define a coordinate
@@ -133,9 +182,7 @@ function handleImage(e){
 		var cells=[];
 		var source = i_ctx.getImageData(0, 0, inputCanvas.width, inputCanvas.height);
 
-		$('#render-span').addClass("glyphicon glyphicon-refresh");
-		$('#render').text("Working...");		
-		
+
 		//TODO: cell shape
 		
 		//for square grids
@@ -162,9 +209,6 @@ function handleImage(e){
 		
 		draw_cells(cells);
 		
-		$('#render-span').removeClass("glyphicon glyphicon-refresh");
-		$('#render').text("Trixelate!");
-
 	}
 	
 	function draw_cells(cells)
