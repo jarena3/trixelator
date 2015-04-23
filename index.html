@@ -93,7 +93,7 @@
 			<div id="cs_in" class="panel panel-primary">
 				<div class="panel-heading">Cell Size</div>
 				<div class="panel-body">
-					<input id="cell-size-slider" data-slider-id='cs-slider' type="text" data-slider-min="5" data-slider-max="50" data-slider-step="1" data-slider-value="20"/>
+					<input id="cell-size-slider" data-slider-id='cs-slider' type="text" data-slider-min="5" data-slider-max="50" data-slider-step="1" data-slider-value="20" data-slider-handle="square"/>
 				</div>
 			</div>
 		</div>
@@ -101,70 +101,81 @@
 			<div id="os_in" class="panel panel-primary">
 				<div class="panel-heading">Output Image Size</div>
 				<div class="panel-body">
-					<input id="output-size-slider" data-slider-id='os-slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1"/>
+					<input id="output-size-slider" data-slider-id='os-slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1" data-slider-handle="square"/>
 				</div>
 			</div>					
 		</div>	
 	</div>		
-
 	<div class="row">
 		<div class="col-md-4" id="cell-details-input">			
 			<div class="panel panel-primary">
 				<div class="panel-heading">Cell Shape</div>
 				<div class="panel-body">
 					<div class="btn-group-xs" data-toggle="buttons">
-						<label class="btn btn-default active">
-							<input type="radio" name="shapes" id="option1" autocomplete="off" checked> Square
+						<label class="btn btn-default active" data-toggle="tooltip" title="Generate square-shaped trixelation cells">
+							<input type="radio" name="shapes" id="shape-1" autocomplete="off" checked>Square
 						</label>
-						<label class="btn btn-default disabled">
-							<input type="radio" name="shapes" id="option2" autocomplete="off"> Vertical Hex
+						<label class="btn btn-default disabled" data-toggle="tooltip" title="Feature not yet implemented">
+							<input type="radio" name="shapes" id="shape-2" autocomplete="off">Vertical Hex
 						</label>
-						<label class="btn btn-default disabled">
-							<input type="radio" name="shapes" id="option2" autocomplete="off"> Horizontal Hex
+						<label class="btn btn-default disabled" data-toggle="tooltip" title="Feature not yet implemented">
+							<input type="radio" name="shapes" id="shape-2" autocomplete="off">Horizontal Hex
 						</label>
-						<label class="btn btn-default disabled">
-							<input type="radio" name="shapes" id="option3" autocomplete="off"> Voronoi
-						</label>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4" id="cell-details-input">	
-			<div class="panel panel-primary">
-				<div class="panel-heading">Bisectors</div>
-				<div class="panel-body">
-					<div class="btn-group-xs" data-toggle="buttons">
-						<label class="btn btn-default active">
-							<input type="radio" name="bisect-count" id="bis-1" autocomplete="off" checked> One
-						</label>
-						<label class="btn btn-default disabled">
-							<input type="radio" name="bisect-count" id="bis-2" autocomplete="off"> Two 
-						</label>
-						<label class="btn btn-default disabled">
-							<input type="radio" name="bisect-count" id="bis-3" autocomplete="off"> Three
+						<label class="btn btn-default disabled" data-toggle="tooltip" title="Feature not yet implemented">
+							<input type="radio" name="shapes" id="shape-3" autocomplete="off">Voronoi
 						</label>
 					</div>
 				</div>
 			</div>
-		</div>							
+		</div>						
 		<div class="col-md-4" id="cell-details-input">	
 			<div class="panel panel-primary">
 				<div class="panel-heading">Bisector Direction</div>
 				<div class="panel-body">
 					<div class="btn-group-xs" data-toggle="buttons">
-						<label class="btn btn-default active">
-							<input type="radio" name="bisect-dir" id="bis-ccw" autocomplete="off" checked> Counterclockwise
+						<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate from left to right.">
+							<input type="radio" name="bisect-dir" value="bis-ccw" autocomplete="off">Counterclockwise
 						</label>
-						<label class="btn btn-default disabled">
-							<input type="radio" name="bisect-dir" id="bis-cw" autocomplete="off"> Clockwise 
+						<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate from right to left.">
+							<input type="radio" name="bisect-dir" value="bis-cw" autocomplete="off">Clockwise 
 						</label>
-						<label class="btn btn-default disabled">
-							<input type="radio" name="bisect-dir" id="bis-rnd" autocomplete="off"> Random
+						<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate on alternating sides. Works best on images with even pixel sizes.">
+							<input type="radio" name="bisect-dir" value="bis-alt" autocomplete="off">Alternating
+						</label>
+						<label class="btn btn-default active" data-toggle="tooltip" title="Cells trixelate L->R or R->L randomly.">
+							<input type="radio" name="bisect-dir" value="bis-rnd" autocomplete="off" checked>Random
 						</label>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="col-md-4" id="misc-options">			
+			<div class="panel panel-primary">
+				<div class="panel-heading">Other Options</div>
+				<div class="panel-body">
+					<div class="btn-group-xs" data-toggle="buttons">
+						<label class="btn btn-default" data-toggle="tooltip" title="Leaves a thin border between trixels.">
+							<input type="checkbox" name="other" id="cell-borders" autocomplete="off"> Draw Cell Borders
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+
+		<div class="col-md-12" id="color-options">	
+			<div class="panel panel-primary">
+				<div class="panel-heading">Color Options</div>
+				<div class="panel-body">
+					<div class="btn-group-xs" data-toggle="buttons">
+						<label class="btn btn-default" data-toggle="tooltip" title="Adds a little bit of noise to each trixel. It's classy.">
+							<input type="checkbox" name="color-option" id="noisy" autocomplete="off">Add Noise 
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>							
 	</div>
 </div>
 	
@@ -185,3 +196,6 @@
 		</div>
 </div>
 </body>
+
+
+<img src="noise.png" id="noise"/>

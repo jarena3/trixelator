@@ -49,3 +49,12 @@ body {
     display: block;
 }
 
+.slider-handle {
+	background: #2C3E58;
+	border-radius: 3px;
+}
+
+#noise {
+    visibility: hidden;
+	display: none;
+}
