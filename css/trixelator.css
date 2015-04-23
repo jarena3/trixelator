@@ -54,7 +54,7 @@ body {
 	border-radius: 3px;
 }
 
-#noise {
-    visibility: hidden;
+.hidden {
+	visibility: hidden;
 	display: none;
 }

@@ -20,8 +20,6 @@
 <script src="js/trixelator-page.js"></script>
 <link href="css/trixelator.css" rel="stylesheet" type="text/css">
 
-
-
 <!-- Google -->
 <link href='http://fonts.googleapis.com/css?family=Coda:400,200' rel='stylesheet' type='text/css'>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -78,9 +76,9 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2" id="preview">
-			<canvas id="inputCanvas"></canvas>
-			<canvas id="thumbnailCanvas"></canvas>
+		<div class="col-md-12" id="preview">
+			<canvas class="hidden" id="inputCanvas"></canvas>
+			<canvas id="inputPreviewCanvas"></canvas>
 		</div>
 	</div>
 
@@ -188,14 +186,19 @@
 		<a id="render" class="btn btn-md btn-primary btn-block" role="button"><span id="render-span"></span>Trixelate!</a>
 		<hr>
 	</div>
-
+	
 	<!--///--output---------------------------------------------->	
 		<div class="output">
-		<br><br>
-			<canvas id="outputCanvas"></canvas>
+			<canvas class="hidden" id="outputCanvas"></canvas>
+			<canvas class="hidden" id="scaledCanvas"></canvas>
+			<canvas id="outputPreviewCanvas"></canvas>
 		</div>
+		
+	<div id="d-btn-div">		
+		<a href="#" id="d-btn" class="btn btn-sm btn-success" role="button"  download="trixelation.png"><span id="download-button"></span></a>
+	</div>
+		
 </div>
 </body>
 
-
-<img src="noise.png" id="noise"/>
+<img class="hidden" src="noise.png" id="noise"/>
