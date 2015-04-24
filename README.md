@@ -2,6 +2,10 @@
 
 ##TODO
 - hexes!
-- png option, enable transparency for png
-- 2-slice squares?
+- png option
+- enable transparency on png
+- 2-slice squares
+- circles (linear stack and random stack)
 - noise options
+- color pick range
+- gradient fill cells
