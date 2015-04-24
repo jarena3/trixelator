@@ -2,6 +2,7 @@
 	margin-top: 15px;
 	margin-bottom: 15px;
 	alignment-baseline: central;
+	background: url('../img/jumbotron.jpg') no-repeat center center !important;
 }
 
 body {
@@ -12,19 +13,19 @@ body {
   padding-top: 10px;
   background-color: #ecf0f1;
   border-radius: 5px;
-  text-align: center;
 }
 
-#google-btn {
-
-  width: 100%;
-  text-align: center;
+#google-btn 
+{
+left: 25px;
+top: 25px;
+	position: absolute;
 }
 
 #facebook-btn {
-
-  width: 100%;
-  text-align: center;
+left: 25px;
+	top: 50px;
+	position: absolute;
 }
 
 
@@ -57,4 +58,22 @@ body {
 .hidden {
 	visibility: hidden;
 	display: none;
+}
+
+#col-body {
+  text-align: center;
+}
+
+#footer {
+  text-align: right;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.disabled {
+	opacity: 0.4 !important;
+}
+
+.active {
+    border: 2px #2C3E58 solid !important;
 }
