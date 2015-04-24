@@ -60,8 +60,6 @@ var outputCanvas = document.getElementById('outputCanvas');
 var o_ctx = outputCanvas.getContext('2d');
 var outputPreviewCanvas = document.getElementById('outputPreviewCanvas');
 var op_ctx = outputPreviewCanvas.getContext('2d');
-var scaledCanvas = document.getElementById('scaledCanvas');
-var s_ctx = scaledCanvas.getContext('2d');
 
 
 //init sliders
@@ -81,7 +79,7 @@ var s_ctx = scaledCanvas.getContext('2d');
 //get image from loader
 function handleImage(e){
     var reader = new FileReader();
-	var canvasExtents = $('#preview').width();
+	var canvasExtents = $('#preview').width() * 0.9;
 	
     reader.onload = function(event){
         inputImage = new Image();
@@ -120,37 +118,31 @@ $("#render").click(function()
 	cellSize = $('#cell-size-slider').slider().slider('getValue');
 	outputSizeMultiplier = $('#output-size-slider').slider().slider('getValue');
 	
-	outputCanvas.width = inputImage.width;
-	outputCanvas.height = inputImage.height;
+	outputCanvas.width = outputPreviewCanvas.width = inputImage.width * outputSizeMultiplier;
+	outputCanvas.height = outputPreviewCanvas.height = inputImage.height * outputSizeMultiplier;
 		
 	bisectDirection = $('input[name="bisect-dir"]:checked').val();
 	
 	var noiseImg = document.getElementById("noise");
 	noisePattern = o_ctx.createPattern(noiseImg, "repeat");
 			
+	o_ctx.scale(outputSizeMultiplier, outputSizeMultiplier);
+	
 	draw_output_cells();
 	
-	var canvasExtents = $('#col-body').width();
-	outputPreviewCanvas.width = outputCanvas.width;
-	outputPreviewCanvas.height = outputPreviewCanvas.height;
-	//copy image from hidden output canvas to output preview
+	var canvasExtents = $('#col-body').width() * 0.9;
 	
 	if (outputPreviewCanvas.width > canvasExtents)
 	{
 		var scaleFactor = canvasExtents / outputPreviewCanvas.width;
 		outputPreviewCanvas.width = outputCanvas.width * scaleFactor;
 		outputPreviewCanvas.height = outputCanvas.height * scaleFactor;
-		op_ctx.drawImage(outputCanvas,0,0, outputPreviewCanvas.width, outputPreviewCanvas.height);
+		op_ctx.drawImage(outputCanvas, 0, 0, outputPreviewCanvas.width, outputPreviewCanvas.height);
 	}
-	else
+	else 
 	{
-		op_ctx.drawImage(outputCanvas,0,0);
+		op_ctx.drawImage(outputCanvas, 0, 0);
 	}
-	/*
-	scaledCanvas.width = outputCanvas.width * outputSizeMultiplier;
-	scaledCanvas.height = outputCanvas.height * outputSizeMultiplier;
-	s_ctx.drawImage(outputCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
-	*/
 	
 	//pop download button
 	resString = "" + outputCanvas.width + "x" + outputCanvas.height;
@@ -159,7 +151,8 @@ $("#render").click(function()
 	
 	var dBtn = document.getElementById('d-btn');
 	dBtn.addEventListener('click', function (e) {
-		var dataURL = outputCanvas.toDataURL('image/png');
+		dBtn.download = "trixelation_" + Date.now() + ".jpeg";
+		var dataURL = outputCanvas.toDataURL('image/jpeg').replace("image/jpeg", "image/octet-stream");
 			dBtn.href = dataURL;
 });
 

@@ -39,22 +39,26 @@
 </head>
 <!--///--header---------------------------------------------->
 <div class="jumbotron">
-    <div="container">
-        <h1 align="center">Trixelator</h1>
-        <h3 align="center">Image Triangulizer</h3>
+				<div id="facebook-btn">
+			<div class="fb-like" data-href="http://jarena3.github.io/trixelator/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+		</div>
 		<!-- Place this tag where you want the +1 button to render. -->
 		<div id="google-btn">
 			<div class="g-plusone" data-size="standard" data-annotation="bubble" data-width="120"></div>
 		</div>
 		<!-- Place this tag after the last +1 button tag. -->
-		<div id="facebook-btn">
-			<div class="fb-like" data-href="http://jarena3.github.io/trixelator/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-		</div>
+
+		
+    <div="container">
+        <h1 align="center">Trixelator</h1>
+        <h4 align="center">Image Triangulizer</h4>
+
 		
  </div>
 
 <!--///--body------------------------------------------------>
 <body>
+<div class="row">
 <div class="col-md-10 col-md-offset-1" id="col-body">
 	<!--///--input----------------------------------------------->
 
@@ -190,15 +194,25 @@
 	<!--///--output---------------------------------------------->	
 		<div class="output">
 			<canvas class="hidden" id="outputCanvas"></canvas>
-			<canvas class="hidden" id="scaledCanvas"></canvas>
 			<canvas id="outputPreviewCanvas"></canvas>
 		</div>
 		
 	<div id="d-btn-div">		
 		<a href="#" id="d-btn" class="btn btn-sm btn-success" role="button"  download="trixelation.png"><span id="download-button"></span></a>
+		<br><br>
 	</div>
 		
 </div>
+</div>
+<br>
+<div class="row">
+	<div class="col-md-12">
+		<div id="footer">
+			<a href="http://jarena3.github.io"><b>John Arena III&nbsp;&nbsp;</b></a>
+		</div>
+	</div>
+</div>
+
 </body>
 
 <img class="hidden" src="noise.png" id="noise"/>

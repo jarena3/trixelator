@@ -19,6 +19,25 @@ $(document).ready( function() {
         
     });
 	
+	var madebys = ['Hewn from the living rock by ', 
+					'Released from the tombs of ancient kings by ', 
+					'Discovered in a cyclopean labyrinth by ', 
+					'Lept, fully grown, from the head of ',
+					'Based on a song by ',
+					'Grown in a reeking vat by',
+					'After loosing a roaring laughter, fell and terrible, was lashed together by ',
+					'Assembled soullessly and robotically by automaton ID: ',
+					'Based on the past life regressions of ',
+					'Neither confirmed nor denied by ',
+					'Behold ye the folly of ']
+					
+					
+	$('#footer').prepend("" + madebys[getRandomInt(0, madebys.length)]);
+	
+	
+	function getRandomInt(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 
 
 });
