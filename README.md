@@ -9,3 +9,4 @@
 - noise options
 - color pick range
 - gradient fill cells
+- options should change dynamically based on shape selection
