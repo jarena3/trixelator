@@ -5,12 +5,12 @@
 
 <title>Trixelator</title>
 <meta property="og:site_name" content="Trixelator"/>
-<meta property="og:title" content="Image Triangulizer"/>
+<meta property="og:title" content="Trixelator, Image Triangulizer"/>
 <meta property="og:type"   content="website"/> 
 <meta property="og:description" content="Trixelator is a free, open source, triangle-centric image manipulator. You feed it images, and it spits out 'trixelated' images. Currently in development."/>
 <meta property="og:image" content="http://jarena3.github.io/trixelator/img/fb_icon_lg.jpg"/>
 <meta property="og:url"content="http://jarena3.github.io/trixelator/">
-<meta property="fb:app_id" content="818399861580732"/>
+<meta property="fb:app_id" content="768402796601047"/>
 
 
 
@@ -36,13 +36,23 @@
 
 <!-- Facebook -->
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=818399861580732";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '768402796601047',
+      xfbml      : true,
+      version    : 'v2.3'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
  
 <!--[if lt IE 7]><p class=chromeframe>Your browser is super old. <a href="http://browsehappy.com/">Update your browser.</a></p><![endif]-->
 
