@@ -1,5 +1,9 @@
 # trixelator
 
 ##TODO
-- use either timeout or hide/unhide to make the loading animation and progress bar work
-- look at weavesilk to find out how to handle scaled images. probably css?
+- loading modal
+- options change (animations!) based on options selected
+- make a complexity/projected runtime indicator, or at least warnings
+- voronoi
+- marching circles
+- other shapes????

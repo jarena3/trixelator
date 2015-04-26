@@ -49,9 +49,7 @@ var inputImage;
 var outputSizeMultiplier = 1;
 var cellSize = 20;
 var colorSampleRadius = 1;
-var drawCells = false;
 var sliceCount = 1;
-var bisectDirection = "bis-rnd";
 var noisePattern;
 
 //globals for the output
@@ -102,7 +100,6 @@ function handleImage(e){
 				ip_ctx.drawImage(inputImage, 0, 0);
 			}
 			
-
         }
 		
         inputImage.src = event.target.result;
@@ -112,7 +109,6 @@ function handleImage(e){
 
 $("#render").click(function()
 {
-	
 	dbtnDiv.style.display="initial";
 	
 	cellSize = $('#cell-size-slider').slider().slider('getValue');
@@ -121,14 +117,27 @@ $("#render").click(function()
 	outputCanvas.width = outputPreviewCanvas.width = inputImage.width * outputSizeMultiplier;
 	outputCanvas.height = outputPreviewCanvas.height = inputImage.height * outputSizeMultiplier;
 		
-	bisectDirection = $('input[name="bisect-dir"]:checked').val();
-	
 	var noiseImg = document.getElementById("noise");
 	noisePattern = o_ctx.createPattern(noiseImg, "repeat");
 			
 	o_ctx.scale(outputSizeMultiplier, outputSizeMultiplier);
 	
-	draw_output_cells();
+	switch ($('input[name="cell-shape"]:checked').val())
+	{
+		case("square"):
+			draw_square_cells();
+			break;
+		case("v-hex"):
+			draw_hex_cells(true); //bool = vert
+			break;
+		case("h-hex"):
+			draw_hex_cells(false);
+			break;
+		default:
+			alert("ERROR: malformed cell shape request!")
+			break;	
+	}
+	
 	
 	var canvasExtents = $('#col-body').width() * 0.9;
 	
@@ -159,30 +168,131 @@ $("#render").click(function()
     }); 
 	
 	//define a coordinate
-	function coord (x, y) {
+	function coord (x, y) 
+	{
 		this.x = x;
 		this.y = y;
 	}
 	
 	//define a cell
-	function cell (coords) {
+	function cell (coords) 
+	{
 		this.verts = coords;
 	}
 	
+	function draw_hex_cells(vert)
+	{
+		//equalize hex res with square res
+		cellSize *= 3;
 		
-		//TODO: extend this to other shapes	
-	function draw_output_cells(){
+		var centers=[];
+		
+		var source = i_ctx.getImageData(0, 0, inputCanvas.width, inputCanvas.height);
+		
+		var grid_length = Math.round(source.width / cellSize);
+		var grid_height = Math.round(source.height / cellSize);
+		
+		
+		//adjust for hex contraction
+		if (vert)
+		{
+			grid_length += 1;
+			grid_height *= 2;
+		}
+		else
+		{
+			grid_length *= 2;
+			grid_height += 1;
+		}
+		
+		
+		//collect hex centers	
+		for (var x = 0; x < grid_length; x ++)
+		{
+			for (var y = 0; y < grid_height; y++)
+			{
+				if (vert)
+				{
+					var xOffset = (0.5 * cellSize)
+					var yOffset = (0.25 * cellSize)
+		
+					if (y % 2 != 0)
+					{
+						centers.push(new coord(x * cellSize, (y * cellSize)-(yOffset * y)));
+					}
+					else
+					{
+						centers.push(new coord((x * cellSize) + xOffset, (y * cellSize)-(yOffset * y)));
+					}
+				}
+				else
+				{
+					var xOffset = (0.25 * cellSize)
+					var yOffset = (0.5 * cellSize)
+					
+					if (x % 2 != 0)
+					{
+						centers.push(new coord((x * cellSize) - (xOffset * x), (y * cellSize)-(yOffset)));
+					}
+					else
+					{
+						centers.push(new coord((x * cellSize) - (xOffset * x), (y * cellSize)));
+					}
+				}
+			}
+		}
+		
+		//draw triangles from hex center
+		for (var i = 0; i < centers.length; i++)
+		{
+			var c = centers[i];
+			var n = cellSize;
+			
+			var p=[];
+
+			if (vert)
+			{
+				p.push(new coord(c.x, c.y + (0.50 * n)));
+				p.push(new coord(c.x + (0.50 * n), c.y + (0.25 * n)));
+				p.push(new coord(c.x + (0.50 * n), c.y - (0.25 * n)));
+				p.push(new coord(c.x, c.y - (0.50 * n)));
+				p.push(new coord(c.x - (0.50 * n), c.y - (0.25 * n)));
+				p.push(new coord(c.x - (0.50 * n), c.y + (0.25 * n)));
+				p.push(new coord(c.x, c.y + (0.50 * n)));				
+			}
+			else
+			{
+				p.push(new coord(c.x - (0.25 * n), c.y + (0.50 * n)));
+				p.push(new coord(c.x + (0.25 * n), c.y + (0.50 * n)));
+				p.push(new coord(c.x + (0.50 * n), c.y));
+				p.push(new coord(c.x + (0.25 * n), c.y - (0.50 * n)));
+				p.push(new coord(c.x - (0.25 * n), c.y - (0.50 * n)));
+				p.push(new coord(c.x - (0.50 * n), c.y));
+				p.push(new coord(c.x - (0.25 * n), c.y + (0.50 * n)));				
+			}
+
+			for (var j = 0; j < 6; j ++)
+			{
+				drawTriangle(p[j], c, p[j+1]);
+			}
+			
+			
+		}
+
+		
+		
+	}
+	
+	function draw_square_cells()
+	{
 		var cells=[];
 		var source = i_ctx.getImageData(0, 0, inputCanvas.width, inputCanvas.height);
 
-
-		//TODO: cell shape
-		
-		//for square grids
 		//calculate the output grid
 		var grid_length = Math.round(source.width / cellSize);
 		var grid_height = Math.round(source.height / cellSize);		
 		
+		//get the cells
 		for (var x = 0; x < grid_length; x ++)
 		{
 			for (var y = 0; y < grid_height; y++)
@@ -200,17 +310,11 @@ $("#render").click(function()
 		
 		console.log(cells.length);
 		
-		draw_cells(cells);
-		
-	}
-	
-	function draw_cells(cells)
-	{
-		
+		//draw the cells		
 		for (var i = 0; i < cells.length; i++)
 		{
 			var c = cells[i];
-			
+			/*
 			if (drawCells)
 			{
 				o_ctx.strokeRect(c.x, c.y, cellSize, cellSize);
@@ -220,9 +324,9 @@ $("#render").click(function()
 				o_ctx.moveTo(c.x, c.y);
 				o_ctx.lineTo(c.x + cellSize, c.y + cellSize);
 				o_ctx.stroke();
-			}
+			}*/
 				
-			switch (bisectDirection)
+			switch ($('input[name="bisect-dir"]:checked').val())
 			{
 				case ("bis-ccw"):
 					//0 -> 3 -> 2
@@ -288,7 +392,6 @@ $("#render").click(function()
 		{	
 			o_ctx.fillStyle = o_ctx.strokeStyle = noisePattern;
 			o_ctx.fill();
-//			o_ctx.stroke();	
 		}
 		
 		if (!$('#cell-borders').is(":checked"))
@@ -302,11 +405,18 @@ $("#render").click(function()
 		//get triangle centroid
 		var centroid = new coord(((a.x + b.x + c.x) / 3), ((a.y + b.y + c.y) / 3));
 		//get pixel
-		var p = i_ctx.getImageData(centroid.x, centroid.y, 1, 1).data; 
-		//get color
-		var hex = ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
-		
-		return hex;
+		try
+		{
+			var p = i_ctx.getImageData(centroid.x, centroid.y, 1, 1).data; 
+			//get color
+			var hex = ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+			return hex;
+		}
+		catch(err)
+		{
+			//if we can't find a pixel, we're outside the supplied image, so toss up a transparent pixel
+			return "#00FFFFFFF";
+		}
 	}
 	
 	function rgbToHex(r, g, b) 

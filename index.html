@@ -124,17 +124,17 @@
 				<div class="panel-heading">Cell Shape</div>
 				<div class="panel-body">
 					<div class="btn-group-xs" data-toggle="buttons">
-						<label class="btn btn-default active" data-toggle="tooltip" title="Generate square-shaped trixelation cells">
-							<input type="radio" name="shapes" id="shape-1" autocomplete="off" checked>Square
+						<label class="btn btn-default active" data-toggle="tooltip" title="Square-shaped trixelation cells">
+							<input type="radio" name="cell-shape" value="square" autocomplete="off" checked>Square
+						</label>
+						<label class="btn btn-default" data-toggle="tooltip" title="Hexagon-shaped trixelation cells in a vertical (flat-topped) grid">
+							<input type="radio" name="cell-shape" value="v-hex" autocomplete="off">Vertical Hex
+						</label>
+						<label class="btn btn-default" data-toggle="tooltip" title="Hexagon-shaped trixelation cells in a horizontal (pointy-topped) grid">
+							<input type="radio" name="cell-shape" value="h-hex" autocomplete="off">Horizontal Hex
 						</label>
 						<label class="btn btn-default disabled" data-toggle="tooltip" title="Feature not yet implemented">
-							<input type="radio" name="shapes" id="shape-2" autocomplete="off">Vertical Hex
-						</label>
-						<label class="btn btn-default disabled" data-toggle="tooltip" title="Feature not yet implemented">
-							<input type="radio" name="shapes" id="shape-2" autocomplete="off">Horizontal Hex
-						</label>
-						<label class="btn btn-default disabled" data-toggle="tooltip" title="Feature not yet implemented">
-							<input type="radio" name="shapes" id="shape-3" autocomplete="off">Voronoi
+							<input type="radio" name="cell-shape" value="voronoi" autocomplete="off">Voronoi
 						</label>
 					</div>
 				</div>
