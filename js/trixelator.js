@@ -34,6 +34,8 @@
  $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+$('.dropdown-toggle').dropdown()
 	 
 	 
 //globals for the source
@@ -53,6 +55,7 @@ var sliceCount = 1;
 var noisePattern;
 
 //globals for the output
+var loadingModal = $('.loading');
 var cellSize;
 var outputCanvas = document.getElementById('outputCanvas');
 var o_ctx = outputCanvas.getContext('2d');
@@ -107,7 +110,36 @@ function handleImage(e){
     reader.readAsDataURL(e.target.files[0]);     
 }
 
-$("#render").click(function()
+	//progress bar
+	$('.js-loading-bar').modal({
+	  backdrop: 'static',
+	  show: false
+	});
+
+$('#render').click(function() {
+	
+	if (inputImage != null)
+	{
+		$('#warning-div').html('');
+		
+		loadingModal.modal('show');
+
+		setTimeout(function() {
+		render();
+		}, 1000);
+
+		setTimeout(function() {
+		loadingModal.modal('hide');
+		}, 1500);
+	}
+	else
+	{
+		$('#warning-div').append('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Error!</strong> No image selected! Select an image and try again.</div>');
+	}
+});
+
+
+function render()
 {
 	dbtnDiv.style.display="initial";
 	
@@ -121,6 +153,7 @@ $("#render").click(function()
 	noisePattern = o_ctx.createPattern(noiseImg, "repeat");
 			
 	o_ctx.scale(outputSizeMultiplier, outputSizeMultiplier);
+	
 	
 	switch ($('input[name="cell-shape"]:checked').val())
 	{
@@ -165,7 +198,7 @@ $("#render").click(function()
 			dBtn.href = dataURL;
 });
 
-    }); 
+}
 	
 	//define a coordinate
 	function coord (x, y) 
@@ -314,17 +347,6 @@ $("#render").click(function()
 		for (var i = 0; i < cells.length; i++)
 		{
 			var c = cells[i];
-			/*
-			if (drawCells)
-			{
-				o_ctx.strokeRect(c.x, c.y, cellSize, cellSize);
-				
-				//draw bisection
-				o_ctx.beginPath();
-				o_ctx.moveTo(c.x, c.y);
-				o_ctx.lineTo(c.x + cellSize, c.y + cellSize);
-				o_ctx.stroke();
-			}*/
 				
 			switch ($('input[name="bisect-dir"]:checked').val())
 			{
@@ -379,7 +401,15 @@ $("#render").click(function()
 		o_ctx.fillStyle = o_ctx.strokeStyle = "#" + getPointColor(a,b,c);
 
 		o_ctx.beginPath();
-		o_ctx.lineWidth=1;
+		if (!$('#cell-borders').is(":checked"))
+		{
+			o_ctx.lineWidth=0;
+		}
+		else
+		{
+			o_ctx.lineWidth=0.5;
+		}
+		
 		o_ctx.moveTo(a.x, a.y);
 		o_ctx.lineTo(b.x, b.y);
 		o_ctx.lineTo(c.x, c.y);
@@ -394,10 +424,6 @@ $("#render").click(function()
 			o_ctx.fill();
 		}
 		
-		if (!$('#cell-borders').is(":checked"))
-		{
-			o_ctx.stroke();
-		}
 	}
 	
 	function getPointColor (a,b,c)
@@ -425,6 +451,5 @@ $("#render").click(function()
         throw "Invalid color component";
     return ((r << 16) | (g << 8) | b).toString(16);
 	}
-	
 	
 });
