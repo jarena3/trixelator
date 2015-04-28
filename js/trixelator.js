@@ -51,6 +51,8 @@ var cellSize = 20;
 var colorSampleRadius = 1;
 var sliceCount = 1;
 var noisePattern;
+var fill;
+var sample;
 
 //globals for the output
 var loadingModal = $('.loading');
@@ -153,6 +155,9 @@ function render()
 	
 	dbtnDiv.style.display="initial";
 	
+	sample = $('input[name="color-sample"]:checked').val();
+	fill = $('input[name="fill"]:checked').val()
+	
 	cellSize = $('#cell-size-slider').slider().slider('getValue');
 	outputSizeMultiplier = $('#output-size-slider').slider().slider('getValue');
 	
@@ -250,7 +255,7 @@ function render()
 		var grid_height = Math.round(inputPreviewCanvas.height / cellSize);
 		
 		var vert = true;
-		if ($('input[name="tile-dir]:checked').val() === "horiz")
+		if ($('input[name="tile-dir"]:checked').val() === "horiz")
 		{
 			vert = false;
 		}
@@ -426,9 +431,29 @@ function render()
 	
 	function drawTriangle (a, b, c)
 	{
-		
-		o_ctx.fillStyle = o_ctx.strokeStyle = "#" + getPointColor(a,b,c);
+		var centroid = new coord(((a.x + b.x + c.x) / 3), ((a.y + b.y + c.y) / 3));
 
+		switch (fill)
+		{
+			case ("solid"):
+				o_ctx.fillStyle = o_ctx.strokeStyle = getColor(centroid);
+				break;
+			case ("gradient-l"):
+				var gradient = o_ctx.createLinearGradient(a.x,a.y,b.x,b.y);
+				gradient.addColorStop(0,getColor(a));
+				gradient.addColorStop(1,getColor(b));
+				o_ctx.fillStyle = o_ctx.strokeStyle = gradient;
+				break;
+			case ("gradient-r"):
+				var gradient = o_ctx.createRadialGradient(centroid.x, centroid.y, 1, centroid.x, centroid.y, cellSize/2);
+				gradient.addColorStop(0,getColor(centroid));
+				gradient.addColorStop(1,getColor(c));
+				o_ctx.fillStyle = o_ctx.strokeStyle = gradient;
+				break;
+			default:
+				break;
+		}
+			
 		o_ctx.beginPath();
 		if (!$('#cell-borders').is(":checked"))
 		{
@@ -455,16 +480,43 @@ function render()
 		
 	}
 	
-	function getPointColor (a,b,c)
+	function getColor (point)
 	{
-		//get triangle centroid
-		var centroid = new coord(((a.x + b.x + c.x) / 3), ((a.y + b.y + c.y) / 3));
 		//get pixel
+		var hex;
+		
 		try
 		{
-			var p = ip_ctx.getImageData(centroid.x, centroid.y, 1, 1).data; 
-			//get color
-			var hex = ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+		
+		switch (sample)
+		{
+			case ("1px"):
+				var p = ip_ctx.getImageData(point.x, point.y, 1, 1).data;
+				hex = rgbToHex(p[0], p[1], p[2]);
+				break;
+			case ("5px"):
+				var p = ip_ctx.getImageData(point.x, point.y, 5, 5).data;
+				var hex = rgbToHex(p[0], p[1], p[2]);
+					for (var i = 4; i < p.length; i += 4)
+					{
+						hex = $.xcolor.average(hex, rgbToHex(p[i+0], p[i+1], p[i+2]));					
+					}
+				break;
+			case ("10px"):
+				var p = ip_ctx.getImageData(point.x, point.y, 10, 10).data;
+				var hex = rgbToHex(p[0], p[1], p[2]);
+					for (var i = 4; i < p.length; i += 4)
+					{
+						hex = $.xcolor.average(hex, rgbToHex(p[i+0], p[i+1], p[i+2]));
+					}
+				break;
+			case ("rnd"):
+				var p = ip_ctx.getImageData(getRandomInt(0, inputPreviewCanvas.width), getRandomInt(0, inputPreviewCanvas.height), 1, 1).data;
+				hex = rgbToHex(p[0], p[1], p[2]);
+				break;
+			default:
+				break;
+		}
 			return hex;
 		}
 		catch(err)
@@ -474,11 +526,13 @@ function render()
 		}
 	}
 	
-	function rgbToHex(r, g, b) 
-	{
-    if (r > 255 || g > 255 || b > 255)
-        throw "Invalid color component";
-    return ((r << 16) | (g << 8) | b).toString(16);
+	function componentToHex(c) {
+		var hex = c.toString(16);
+		return hex.length == 1 ? "0" + hex : hex;
+	}
+
+	function rgbToHex(r, g, b) {
+		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 	}
 	
  
@@ -493,11 +547,11 @@ function render()
 
 		if (inputImage != null)
 		{
-			var base = 100 * (1 / $('#cell-size-slider').slider().slider('getValue'));
+			var base = 100 * (5 / $('#cell-size-slider').slider().slider('getValue'));
 						
-			if (inputPreviewCanvas.width > 500)
+			if (inputPreviewCanvas.width < 900)
 			{
-				base += 10;
+				base -= (100 - (inputPreviewCanvas.width / 10));
 			}
 								
 			var multiplier = 1;
@@ -505,10 +559,10 @@ function render()
 			switch (($('input[name="color-sample"]:checked').val()))
 			{
 				case ("5px"):
-					multiplier += 1;
+					multiplier += 3;
 					break;
 				case ("10px"):
-					multiplier += 1.5;
+					multiplier += 9;
 					break;
 				default:
 					break;
@@ -557,7 +611,9 @@ function render()
 		}		 
 	 }
 	 
-
+	function getRandomInt(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 	
 	
 });

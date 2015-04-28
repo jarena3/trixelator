@@ -18,6 +18,8 @@
 		<!-- Bootstrap Slider -->
 		<script src="js/bootstrap-slider.js"></script>
 		<link rel="stylesheet" href="css/bootstrap-slider.css">
+		<!-- jQuery xColor -->
+		<script src="js/jquery.xcolor.min.js"></script>		
 		<!-- Trixelator -->
 		<script src="js/trixelator.js"></script>
 		<script src="js/trixelator-page.js"></script>
@@ -80,9 +82,6 @@
 							</span>
 							<input type="text" class="form-control" readonly>
 						</div>
-						<span class="help-block">
-						Large files will take a while to trixelate.
-						</span>
 					</div>
 				</div>
 				<div class="row">
@@ -205,11 +204,8 @@
 												<label class="btn btn-default active" data-toggle="tooltip" title="Trixels are filled with a single color.">
 												<input type="radio" name="fill" value="solid" autocomplete="off" checked >Solid
 												</label>
-												<label class="btn btn-default" data-toggle="tooltip" title="Trixels are filled with a smooth vertical gradient.">
-												<input type="radio" name="fill" value="gradient-v" autocomplete="off">Vertical Gradient 
-												</label>
-												<label class="btn btn-default" data-toggle="tooltip" title="Trixels are filled with a smooth horizontal gradient.">
-												<input type="radio" name="fill" value="gradient-h" autocomplete="off">Horizontal Gradient
+												<label class="btn btn-default" data-toggle="tooltip" title="Trixels are filled with an edge-to-edge gradient.">
+												<input type="radio" name="fill" value="gradient-l" autocomplete="off">Linear Gradient 
 												</label>
 												<label class="btn btn-default" data-toggle="tooltip" title="Trixels are filled with a radial gradient, starting from the trixel's center point.">
 												<input type="radio" name="fill" value="gradient-r" autocomplete="off">Radial Gradient
