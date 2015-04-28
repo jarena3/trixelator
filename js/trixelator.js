@@ -556,7 +556,7 @@ function render()
 			
 			if (inputPreviewCanvas.width < 500)
 			{
-				base -= 50;
+				base -= 15;
 			}
 								
 			var multiplier = 1;
