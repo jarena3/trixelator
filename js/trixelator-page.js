@@ -6,6 +6,13 @@ $(document).on('change', '.btn-file :file', function() {
 });
 
 $(document).ready( function() {
+	
+	$('#hex-options').hide();
+	
+	var h = $('#cell-details-input').height();
+	
+	$('#cell-details-input').css('min-height', h + 'px');
+	
     $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
         
         var input = $(this).parents('.input-group').find(':text'),
@@ -38,7 +45,47 @@ $(document).ready( function() {
 	function getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
-
+	
+	 $('.shape-btn').on('click', function() {
+		setTimeout(function() {
+			setOptions();
+			}, 150);
+	});
+	
+	function setOptions()
+	{
+	switch ($('input[name="cell-shape"]:checked').val())
+	{
+		case("square"):
+			if (!$('#square-options').is(":visible"))
+			{
+				showSquareOptions();
+			}
+			break;
+		case("hex"):
+			if (!$('#hex-options').is(":visible"))
+			{
+				showHexOptions();
+			}
+			break;
+		default:
+			alert("ERROR: malformed cell shape request!")
+			break;	
+	}
+		
+	}
+	
+	function showSquareOptions()
+	{
+		$('#hex-options').fadeOut(100);
+		$('#square-options').delay(110).fadeIn(200);		
+	}
+	
+	function showHexOptions()
+	{
+		$('#square-options').fadeOut(100);
+		$('#hex-options').delay(110).fadeIn(200);
+	}
 
 });
 

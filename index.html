@@ -1,66 +1,57 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8" name = "viewport" content = "width=device-width, initial-scale=1.0">
-
-<title>Trixelator</title>
-<meta property="og:site_name" content="Trixelator"/>
-<meta property="og:title" content="Trixelator, Image Triangulizer"/>
-<meta property="og:type"   content="website"/> 
-<meta property="og:description" content="Trixelator is a free, open source, triangle-centric image manipulator. You feed it regular images, and it spits out 'trixelated' images. Currently in development."/>
-<meta property="og:image" content="http://jarena3.github.io/trixelator/img/fbicon.jpg"/>
-<meta property="og:url"content="http://jarena3.github.io/trixelator/">
-<meta property="fb:app_id" content="768402796601047"/>
-
-
-
-<!-- jQuery -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-<!-- Bootstrap -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    
-<!-- Bootstrap Slider -->
-<script src="js/bootstrap-slider.js"></script>
-<link rel="stylesheet" href="css/bootstrap-slider.css">
-
-<!-- Trixelator -->
-<script src="js/trixelator.js"></script>
-<script src="js/trixelator-page.js"></script>
-<link href="css/trixelator.css" rel="stylesheet" type="text/css">
-
-<!-- Google -->
-<link href='http://fonts.googleapis.com/css?family=Coda:400,200' rel='stylesheet' type='text/css'>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-
-<!-- Facebook -->
-<div id="fb-root"></div>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '768402796601047',
-      xfbml      : true,
-      version    : 'v2.3'
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
- 
-<!--[if lt IE 7]><p class=chromeframe>Your browser is super old. <a href="http://browsehappy.com/">Update your browser.</a></p><![endif]-->
-
-</head>
-<div class="blur">
-<!--///--header---------------------------------------------->
-<div class="jumbotron">
-				<div id="facebook-btn">
+	<head>
+		<meta charset="utf-8" name = "viewport" content = "width=device-width, initial-scale=1.0">
+		<title>Trixelator</title>
+		<meta property="og:site_name" content="Trixelator"/>
+		<meta property="og:title" content="Trixelator, Image Triangulizer"/>
+		<meta property="og:type"   content="website"/>
+		<meta property="og:description" content="Trixelator is a free, open source, triangle-centric image manipulator. You feed it regular images, and it spits out 'trixelated' images. Currently in development."/>
+		<meta property="og:image" content="http://jarena3.github.io/trixelator/img/fbicon.jpg"/>
+		<meta property="og:url"content="http://jarena3.github.io/trixelator/">
+		<meta property="fb:app_id" content="768402796601047"/>
+		<!-- jQuery -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<!-- Bootstrap Slider -->
+		<script src="js/bootstrap-slider.js"></script>
+		<link rel="stylesheet" href="css/bootstrap-slider.css">
+		<!-- Trixelator -->
+		<script src="js/trixelator.js"></script>
+		<script src="js/trixelator-page.js"></script>
+		<link href="css/trixelator.css" rel="stylesheet" type="text/css">
+		<!-- Google -->
+		<link href='http://fonts.googleapis.com/css?family=Coda:400,200' rel='stylesheet' type='text/css'>
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<!-- Facebook -->
+		<div id="fb-root"></div>
+		<script>
+			window.fbAsyncInit = function() {
+			  FB.init({
+			    appId      : '768402796601047',
+			    xfbml      : true,
+			    version    : 'v2.3'
+			  });
+			};
+			
+			(function(d, s, id){
+			   var js, fjs = d.getElementsByTagName(s)[0];
+			   if (d.getElementById(id)) {return;}
+			   js = d.createElement(s); js.id = id;
+			   js.src = "//connect.facebook.net/en_US/sdk.js";
+			   fjs.parentNode.insertBefore(js, fjs);
+			 }(document, 'script', 'facebook-jssdk'));
+		</script>
+		<!--[if lt IE 7]>
+		<p class=chromeframe>Your browser is super old. <a href="http://browsehappy.com/">Update your browser.</a></p>
+		<![endif]-->
+	</head>
+	<div class="blur">
+	<!--///--header---------------------------------------------->
+	<div class="jumbotron">
+		<div id="facebook-btn">
 			<div class="fb-like" data-href="http://jarena3.github.io/trixelator/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 		</div>
 		<!-- Place this tag where you want the +1 button to render. -->
@@ -68,207 +59,234 @@
 			<div class="g-plusone" data-size="standard" data-annotation="bubble" data-width="120"></div>
 		</div>
 		<!-- Place this tag after the last +1 button tag. -->
-
-		
-    <div="container">
-        <h1 align="center">Trixelator</h1>
-        <h4 align="center">Image Triangulizer</h4>
-
-		
- </div>
-
-<!--///--body------------------------------------------------>
-<body>
-<img class="hidden" src="img/fbicon.png"/>
-<div class="row">
-<div class="col-md-10 col-md-offset-1" id="col-body">
-	<!--///--input----------------------------------------------->
-
-
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-            <h4>Select Image</h4>
-            <div class="input-group">
-                <span class="input-group-btn">
-                    <span class="btn btn-primary btn-file">
-                        Browse&hellip; <input type="file" class="drop-area" id="imageLoader" name="imageLoader"/>
-                    </span>
-                </span>
-                <input type="text" class="form-control" readonly>
-            </div>
-            <span class="help-block">
-                Large files will take a while to trixelate.
-            </span>
-		</div>
+		<div="container">
+		<h1 align="center">Trixelator</h1>
+		<h4 align="center">Image Triangulizer</h4>
 	</div>
-	<div class="row">
-		<div class="col-md-12" id="preview">
-			<canvas class="hidden" id="inputCanvas"></canvas>
-			<canvas id="inputPreviewCanvas"></canvas>
-		</div>
-	</div>
-
-	<!--///--options--------------------------------------------->
-<div class="container-fluid">
-
-
-	<div class="row">
-		<div class="col-md-6">
-			<div id="cs_in" class="panel panel-primary">
-				<div class="panel-heading">Cell Size</div>
-				<div class="panel-body">
-					<input id="cell-size-slider" data-slider-id='cs-slider' type="text" data-slider-min="5" data-slider-max="50" data-slider-step="1" data-slider-value="20" data-slider-handle="square"/>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div id="os_in" class="panel panel-primary">
-				<div class="panel-heading">Output Image Size</div>
-				<div class="panel-body">
-					<input id="output-size-slider" data-slider-id='os-slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1" data-slider-handle="square"/>
-				</div>
-			</div>					
-		</div>	
-	</div>		
-	<div class="row">
-		<div class="col-md-6" id="cell-details-input">			
-			<div class="panel panel-primary">
-				<div class="panel-heading">Cell Shape</div>
-				<div class="panel-body">
-					<div class="btn-group" data-toggle="buttons">
-						<label class="btn btn-default active" data-toggle="tooltip" title="Square-shaped trixelation cells">
-							<input type="radio" name="cell-shape" value="square" autocomplete="off" checked>Square
-						</label>
-						<label class="btn btn-default" data-toggle="tooltip" title="Hexagon-shaped trixelation cells in a vertical (flat-topped) grid">
-							<input type="radio" name="cell-shape" value="v-hex" autocomplete="off">Vertical Hex
-						</label>
-						<label class="btn btn-default" data-toggle="tooltip" title="Hexagon-shaped trixelation cells in a horizontal (pointy-topped) grid">
-							<input type="radio" name="cell-shape" value="h-hex" autocomplete="off">Horizontal Hex
-						</label>
-						<label class="btn btn-default disabled" data-toggle="tooltip" title="Feature not yet implemented">
-							<input type="radio" name="cell-shape" value="voronoi" autocomplete="off">Voronoi
-						</label>
+	<!--///--body------------------------------------------------>
+	<body>
+		<img class="hidden" src="img/fbicon.png"/>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1" id="col-body">
+				<!--///--input----------------------------------------------->
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<h4>Select Image</h4>
+						<div class="input-group">
+							<span class="input-group-btn">
+							<span class="btn btn-primary btn-file">
+							Browse&hellip; <input type="file" class="drop-area" id="imageLoader" name="imageLoader"/>
+							</span>
+							</span>
+							<input type="text" class="form-control" readonly>
+						</div>
+						<span class="help-block">
+						Large files will take a while to trixelate.
+						</span>
 					</div>
 				</div>
-			</div>
-		</div>						
-		<div class="col-md-6" id="cell-details-input">	
-			<div class="panel panel-primary">
-				<div class="panel-heading">Cell Options</div>
-				<div class="panel-body">
-					<div id="square-options">
-						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate from left to right.">
-								<input type="radio" name="bisect-dir" value="bis-ccw" autocomplete="off">Counterclockwise
-							</label>
-							<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate from right to left.">
-								<input type="radio" name="bisect-dir" value="bis-cw" autocomplete="off">Clockwise 
-							</label>
-							<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate on alternating sides. Works best on images with even pixel sizes.">
-								<input type="radio" name="bisect-dir" value="bis-alt" autocomplete="off">Alternating
-							</label>
-							<label class="btn btn-default active" data-toggle="tooltip" title="Cells trixelate L->R or R->L randomly.">
-								<input type="radio" name="bisect-dir" value="bis-rnd" autocomplete="off" checked>Random
-							</label>
+				<div class="row">
+					<div class="col-md-12" id="preview">
+						<canvas class="hidden" id="inputCanvas"></canvas>
+						<canvas id="inputPreviewCanvas"></canvas>
+					</div>
+				</div>
+				<!--///--options--------------------------------------------->
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-5">
+							<div id="cs_in" class="panel panel-primary">
+								<div class="panel-heading">Cell Size</div>
+								<div class="panel-body">
+									<input id="cell-size-slider" data-slider-id='cs-slider' type="text" data-slider-min="5" data-slider-max="50" data-slider-step="1" data-slider-value="20" data-slider-handle="square"/>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div id="os_in" class="panel panel-primary">
+								<div class="panel-heading">Output Image Size</div>
+								<div class="panel-body">
+									<input id="output-size-slider" data-slider-id='os-slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1" data-slider-handle="square"/>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2" id="other-options">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Output Format</div>
+								<div class="panel-body">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-default active" data-toggle="tooltip" title="Lossless, but way beefier.">
+										<input type="radio" name="format" value="png" autocomplete="off" checked>.PNG 
+										</label>								
+										<label class="btn btn-default" data-toggle="tooltip" title="Lower quality, but smaller file sizes.">
+										<input type="radio" name="format" value="jpg" autocomplete="off">.JPG
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div id="hex-options" class="hidden">
-						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate in a vertical (flat-topped) grid">
-								<input type="radio" name="bisect-dir" value="bis-ccw" autocomplete="off">Vertical Tile
-							</label>
-							<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate in a horizontal (pointy-topped) grid">
-								<input type="radio" name="bisect-dir" value="bis-cw" autocomplete="off">Horizontal Tile 
-							</label>
+					<div class="row">
+						<div class="col-md-6" id="cell-details-input">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Cell Shape</div>
+								<div class="panel-body">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn shape-btn btn-default active" data-toggle="tooltip" title="Square-shaped trixelation cells">
+										<input type="radio" name="cell-shape" value="square" autocomplete="off" checked>Square
+										</label>
+										<label class="btn shape-btn btn-default" data-toggle="tooltip" title="Hexagon-shaped trixelation cells">
+										<input type="radio" name="cell-shape" value="hex" autocomplete="off">Hexagon
+										</label>
+										<label class="btn shape-btn btn-default options-btn disabled" data-toggle="tooltip" title="Feature not yet implemented">
+										<input type="radio" name="cell-shape" value="voronoi" autocomplete="off">Voronoi
+										</label>
+									</div>
+								</div>
+							</div>
 						</div>
+						<div class="col-md-6" id="cell-details-input">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Cell Options</div>
+								<div class="panel-body">
+									<div id="square-options">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate from left to right.">
+											<input type="radio" name="bisect-dir" value="bis-ccw" autocomplete="off">Counterclockwise
+											</label>
+											<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate from right to left.">
+											<input type="radio" name="bisect-dir" value="bis-cw" autocomplete="off">Clockwise 
+											</label>
+											<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate on alternating sides. Works best on images with even pixel sizes.">
+											<input type="radio" name="bisect-dir" value="bis-alt" autocomplete="off">Alternating
+											</label>
+											<label class="btn btn-default active" data-toggle="tooltip" title="Cells trixelate L->R or R->L randomly.">
+											<input type="radio" name="bisect-dir" value="bis-rnd" autocomplete="off" checked>Random
+											</label>
+										</div>
+									</div>
+									<div id="hex-options"> 
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-default active" data-toggle="tooltip" title="Cells trixelate in a vertical (flat-topped) grid">
+											<input type="radio" name="tile-dir" value="vert" autocomplete="off" checked>Vertical Tile
+											</label>
+											<label class="btn btn-default" data-toggle="tooltip" title="Cells trixelate in a horizontal (pointy-topped) grid">
+											<input type="radio" name="tile-dir" value="horiz" autocomplete="off">Horizontal Tile 
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2" id="other-options">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Other Options</div>
+								<div class="panel-body">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-default" data-toggle="tooltip" title="Adds a little bit of noise to each trixel. It's classy.">
+										<input type="checkbox" name="color-option" id="noisy" autocomplete="off">Noise 
+										</label>
+									
+									<label class="btn btn-default"0.97" data-toggle="tooltip" title="Leaves a thin border between trixels.">
+									<input type="checkbox" name="other" id="cell-borders" autocomplete="off">Cell Borders
+									</label>
+									</div>
+								</div>
+							</div>
+						</div>
+							<div class="col-md-5" id="fill-options">
+								<div class="panel panel-primary">
+									<div class="panel-heading">Fill Styles</div>
+									<div class="panel-body">
+										<div id="fill-options">
+											<div class="btn-group" data-toggle="buttons">
+												<label class="btn btn-default active" data-toggle="tooltip" title="Trixels are filled with a single color.">
+												<input type="radio" name="fill" value="solid" autocomplete="off" checked >Solid
+												</label>
+												<label class="btn btn-default" data-toggle="tooltip" title="Trixels are filled with a smooth vertical gradient.">
+												<input type="radio" name="fill" value="gradient-v" autocomplete="off">Vertical Gradient 
+												</label>
+												<label class="btn btn-default" data-toggle="tooltip" title="Trixels are filled with a smooth horizontal gradient.">
+												<input type="radio" name="fill" value="gradient-h" autocomplete="off">Horizontal Gradient
+												</label>
+												<label class="btn btn-default" data-toggle="tooltip" title="Trixels are filled with a radial gradient, starting from the trixel's center point.">
+												<input type="radio" name="fill" value="gradient-r" autocomplete="off">Radial Gradient
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-5" id="sample-options">
+								<div class="panel panel-primary">
+									<div class="panel-heading">Color Sampling</div>
+									<div class="panel-body">
+										<div id="sample-options">
+											<div class="btn-group" data-toggle="buttons">
+												<label class="btn btn-default active" data-toggle="tooltip" title="Trixels take the color under their central pixel.">
+												<input type="radio" name="color-sample" value="1px" autocomplete="off" checked>1px Sample
+												</label>
+												<label class="btn btn-default" data-toggle="tooltip" title="The middle five pixels are averaged to determine trixel color.">
+												<input type="radio" name="color-sample" value="5px" autocomplete="off">5px Sample
+												</label>
+												<label class="btn btn-default" data-toggle="tooltip" title="The middle ten pixels are averaged to determine trixel color.">
+												<input type="radio" name="color-sample" value="10px" autocomplete="off">10px Sample
+												</label>
+												<label class="btn btn-default" data-toggle="tooltip" title="A random color from the image is chosen for each trixel.">
+												<input type="radio" name="color-sample" value="rnd" autocomplete="off">Random Sample
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p><i>Trixelation Complexity:</i></p>
+					<div class="progress">
+						<div id="bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+						</div>
+					</div>
+					<div id="p-warning-div">
+					</div>
+					<div>
+						<hr>
+						<a id="render" class="btn btn-md btn-primary btn-block" role="button"><span id="render-span"></span>Trixelate!</a>
+						<hr>
+					</div>
+					<!--///--output---------------------------------------------->	
+					<div id="warning-div">
+					</div>
+					<div class="output">
+						<canvas class="hidden" id="outputCanvas"></canvas>
+						<canvas id="outputPreviewCanvas"></canvas>
+					</div>
+					<div id="d-btn-div">		
+						<a href="#" id="d-btn" class="btn btn-sm btn-success" role="button"  download="trixelation.png"><span id="download-button"></span></a>
+						<br><br>
+					</div>
+				</div>
+			</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-md-12">
+					<div id="footer">
+						<a href="http://jarena3.github.io"><b>John Arena III&nbsp;&nbsp;</b></a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-
-		<div class="col-md-12" id="color-options">	
-			<div class="panel panel-primary">
-				<div class="panel-heading">Other Options</div>
-				<div class="panel-body">
-					<div class="btn-group" data-toggle="buttons">
-						<label class="btn btn-default" data-toggle="tooltip" title="Adds a little bit of noise to each trixel. It's classy.">
-							<input type="checkbox" name="color-option" id="noisy" autocomplete="off">Add Noise 
-						</label>
-						
-						<label class="btn btn-default" data-toggle="tooltip" title="Leaves a thin border between trixels.">
-							<input type="checkbox" name="other" id="cell-borders" autocomplete="off"> Draw Cell Borders
-						</label>
-						
-						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							Point Color <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Choose trixel color from center pixel</a></li>
-							<li><a href="#">Choose trixel color from 5px average at center</a></li>
-							<li><a href="#">Choose trixel color by averaging all pixels in trixel</a></li>
-							</ul>
-						</div>
-					</div>
+	</body>
+	<div class="modal fade loading">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title">Trixelating...</h4>
 				</div>
 			</div>
-		</div>							
-	</div>
-</div>
-	
-<p><i>Trixelation Complexity:</i></p>			
-<div class="progress">
-  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-    <span>40% Complete (success)</span>
-  </div>
-</div>	
-			
-	<div>		
-		<hr>
-		<a id="render" class="btn btn-md btn-primary btn-block" role="button"><span id="render-span"></span>Trixelate!</a>
-	
-		<hr>
-	</div>
-	
-	<!--///--output---------------------------------------------->	
-	<div id="warning-div">
-
-	</div>
-	
-	<div class="output">
-		<canvas class="hidden" id="outputCanvas"></canvas>
-		<canvas id="outputPreviewCanvas"></canvas>
-	</div>
-	
-	<div id="d-btn-div">		
-		<a href="#" id="d-btn" class="btn btn-sm btn-success" role="button"  download="trixelation.png"><span id="download-button"></span></a>
-		<br><br>
-	</div>
-		
-</div>
-</div>
-<br>
-<div class="row">
-	<div class="col-md-12">
-		<div id="footer">
-			<a href="http://jarena3.github.io"><b>John Arena III&nbsp;&nbsp;</b></a>
 		</div>
 	</div>
-</div>
-</div>
-</body>
-
-<div class="modal fade loading">
-	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Trixelating...</h4>
-			</div>
-		</div>
-	</div>
-</div>
-
-<img class="hidden" src="img/noise.png" id="noise"/>
+	<img class="hidden" src="img/noise.png" id="noise"/>

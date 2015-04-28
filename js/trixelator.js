@@ -24,7 +24,7 @@
  *
  */
  
- 
+	
  $(document).ready(function() {
 
  var dbtnDiv = document.getElementById("d-btn-div");
@@ -32,17 +32,15 @@
  
 //get these tooltips up ins 
  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip();
 })
 
-$('.dropdown-toggle').dropdown()
+$('.dropdown-toggle').dropdown();
 	 
 	 
 //globals for the source
 var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
-var inputCanvas = document.getElementById('inputCanvas');
-var i_ctx = inputCanvas.getContext('2d');
 var inputPreviewCanvas = document.getElementById('inputPreviewCanvas');
 var ip_ctx = inputPreviewCanvas.getContext('2d');
 var inputImage;
@@ -56,7 +54,6 @@ var noisePattern;
 
 //globals for the output
 var loadingModal = $('.loading');
-var cellSize;
 var outputCanvas = document.getElementById('outputCanvas');
 var o_ctx = outputCanvas.getContext('2d');
 var outputPreviewCanvas = document.getElementById('outputPreviewCanvas');
@@ -69,13 +66,17 @@ var op_ctx = outputPreviewCanvas.getContext('2d');
 			return 'Cell Size: ' + value;
 		}
 	});
+	
+	 $('#cell-size-slider').slider().on('slide', function(slideEvt) {
+			calculateComplexity();
+	});
 
+	
 	var os_slider = $('#output-size-slider').slider({
 		formatter: function(value) {
 			return 'Output Image Scale: x' + value;
 		}
 	});
-
 
 //get image from loader
 function handleImage(e){
@@ -85,17 +86,17 @@ function handleImage(e){
     reader.onload = function(event){
         inputImage = new Image();
         inputImage.onload = function(){
-			
-            inputCanvas.width = inputPreviewCanvas.width = inputImage.width;
-            inputCanvas.height = inputPreviewCanvas.height = inputImage.height;
-			i_ctx.drawImage(inputImage,0,0);
+					
+            inputPreviewCanvas.width = inputImage.width;
+            inputPreviewCanvas.height = inputImage.height;
+
 			inputCanvas.style.display="none";
 			
-			if (inputPreviewCanvas.width > canvasExtents)
+			if (inputPreviewCanvas.width > 1000)
 			{
-				var scaleFactor = canvasExtents / inputPreviewCanvas.width;
-				inputPreviewCanvas.width = inputImage.width * scaleFactor;
-				inputPreviewCanvas.height = inputImage.height * scaleFactor;
+				var scaleFactor = 1000 / inputPreviewCanvas.width;
+				inputPreviewCanvas.width = inputImage.width = inputImage.width * scaleFactor;
+				inputPreviewCanvas.height = inputImage.height = inputImage.height * scaleFactor;
 				ip_ctx.drawImage(inputImage, 0, 0, inputPreviewCanvas.width, inputPreviewCanvas.height);
 			}
 			else 
@@ -107,7 +108,13 @@ function handleImage(e){
 		
         inputImage.src = event.target.result;
     }
+	
     reader.readAsDataURL(e.target.files[0]);     
+
+		setTimeout(function() {
+		calculateComplexity();
+		}, 150);	
+	
 }
 
 	//progress bar
@@ -121,16 +128,17 @@ $('#render').click(function() {
 	if (inputImage != null)
 	{
 		$('#warning-div').html('');
+		$('#p-warning-div').html('');
 		
 		loadingModal.modal('show');
 
 		setTimeout(function() {
 		render();
-		}, 1000);
+		}, 500);
 
 		setTimeout(function() {
 		loadingModal.modal('hide');
-		}, 1500);
+		}, 1000);
 	}
 	else
 	{
@@ -141,6 +149,8 @@ $('#render').click(function() {
 
 function render()
 {
+	var start = new Date().getTime();
+	
 	dbtnDiv.style.display="initial";
 	
 	cellSize = $('#cell-size-slider').slider().slider('getValue');
@@ -160,11 +170,8 @@ function render()
 		case("square"):
 			draw_square_cells();
 			break;
-		case("v-hex"):
-			draw_hex_cells(true); //bool = vert
-			break;
-		case("h-hex"):
-			draw_hex_cells(false);
+		case("hex"):
+			draw_hex_cells();
 			break;
 		default:
 			alert("ERROR: malformed cell shape request!")
@@ -189,15 +196,34 @@ function render()
 	//pop download button
 	resString = "" + outputCanvas.width + "x" + outputCanvas.height;
 	
-	$('#download-button').text("Download full resolution version (" + resString + "px)");
-	
-	var dBtn = document.getElementById('d-btn');
-	dBtn.addEventListener('click', function (e) {
-		dBtn.download = "trixelation_" + Date.now() + ".jpeg";
-		var dataURL = outputCanvas.toDataURL('image/jpeg').replace("image/jpeg", "image/octet-stream");
-			dBtn.href = dataURL;
-});
 
+	if ($('input[name="format"]:checked').val() === "png")
+	{	
+		$('#download-button').text("Download full resolution PNG (" + resString + "px)");
+	
+		var dBtn = document.getElementById('d-btn');
+		dBtn.addEventListener('click', function (e) {
+			dBtn.download = "trixelation_" + Date.now() + ".png";
+			var dataURL = outputCanvas.toDataURL('image/png').replace("image/png", "image/octet-stream");
+				dBtn.href = dataURL;	
+						});
+	}
+	else
+	{
+		$('#download-button').text("Download full resolution JPG (" + resString + "px)");
+		
+		var dBtn = document.getElementById('d-btn');
+		dBtn.addEventListener('click', function (e) {
+			dBtn.download = "trixelation_" + Date.now() + ".jpg";
+			var dataURL = outputCanvas.toDataURL('image/jpg').replace("image/jpg", "image/octet-stream");
+				dBtn.href = dataURL;	
+						});
+	}
+
+		
+	var end = new Date().getTime();
+	var time = end - start;
+	console.log('Execution time: ' + time);
 }
 	
 	//define a coordinate
@@ -213,17 +239,21 @@ function render()
 		this.verts = coords;
 	}
 	
-	function draw_hex_cells(vert)
+	function draw_hex_cells()
 	{
 		//equalize hex res with square res
-		cellSize *= 3;
+		cellSize *= 2;
 		
 		var centers=[];
 		
-		var source = i_ctx.getImageData(0, 0, inputCanvas.width, inputCanvas.height);
+		var grid_length = Math.round(inputPreviewCanvas.width / cellSize);
+		var grid_height = Math.round(inputPreviewCanvas.height / cellSize);
 		
-		var grid_length = Math.round(source.width / cellSize);
-		var grid_height = Math.round(source.height / cellSize);
+		var vert = true;
+		if ($('input[name="tile-dir]:checked').val() === "horiz")
+		{
+			vert = false;
+		}
 		
 		
 		//adjust for hex contraction
@@ -309,7 +339,6 @@ function render()
 				drawTriangle(p[j], c, p[j+1]);
 			}
 			
-			
 		}
 
 		
@@ -319,11 +348,10 @@ function render()
 	function draw_square_cells()
 	{
 		var cells=[];
-		var source = i_ctx.getImageData(0, 0, inputCanvas.width, inputCanvas.height);
 
 		//calculate the output grid
-		var grid_length = Math.round(source.width / cellSize);
-		var grid_height = Math.round(source.height / cellSize);		
+		var grid_length = Math.round(inputPreviewCanvas.width / cellSize);
+		var grid_height = Math.round(inputPreviewCanvas.height / cellSize);		
 		
 		//get the cells
 		for (var x = 0; x < grid_length; x ++)
@@ -341,10 +369,11 @@ function render()
 			}
 		}
 		
-		console.log(cells.length);
+		console.log(cells.length + " cells generated");
 		
-		//draw the cells		
-		for (var i = 0; i < cells.length; i++)
+		//draw the cells
+		var cl = cells.length;
+		for (var i = 0; i < cl; i++)
 		{
 			var c = cells[i];
 				
@@ -407,7 +436,7 @@ function render()
 		}
 		else
 		{
-			o_ctx.lineWidth=0.5;
+			o_ctx.lineWidth=1;
 		}
 		
 		o_ctx.moveTo(a.x, a.y);
@@ -433,7 +462,7 @@ function render()
 		//get pixel
 		try
 		{
-			var p = i_ctx.getImageData(centroid.x, centroid.y, 1, 1).data; 
+			var p = ip_ctx.getImageData(centroid.x, centroid.y, 1, 1).data; 
 			//get color
 			var hex = ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
 			return hex;
@@ -451,5 +480,84 @@ function render()
         throw "Invalid color component";
     return ((r << 16) | (g << 8) | b).toString(16);
 	}
+	
+ 
+	 $('.btn').on('click', function() {
+		setTimeout(function() {
+			calculateComplexity();
+			}, 150);
+	});
+	
+	 function calculateComplexity()
+	 {
+
+		if (inputImage != null)
+		{
+			var base = 100 * (1 / $('#cell-size-slider').slider().slider('getValue'));
+						
+			if (inputPreviewCanvas.width > 500)
+			{
+				base += 10;
+			}
+								
+			var multiplier = 1;
+			
+			switch (($('input[name="color-sample"]:checked').val()))
+			{
+				case ("5px"):
+					multiplier += 1;
+					break;
+				case ("10px"):
+					multiplier += 1.5;
+					break;
+				default:
+					break;
+			}
+			
+			switch (($('input[name="fill"]:checked').val()))
+			{
+				case ("solid"):
+					break;
+				default:
+					multiplier += 1;
+					break;
+			}
+			
+			var complexity = base * multiplier;
+
+			if (complexity > 100)
+			{
+				complexity = 100;
+			}
+				
+			var bar = document.getElementById("bar");
+			
+			bar.style.width = complexity + "%";
+			bar.setAttribute("aria-valuenow", complexity);
+
+			if (complexity > 85)
+			{
+				bar.className = "progress-bar progress-bar-danger";
+				if ($('#p-warning-div').html()=== '')
+				{
+				$('#p-warning-div').append('<div class="alert alert-warning alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> This will take a little while to render, especially on older computers. Just a heads up.</div>');
+				}
+			}
+			else if (complexity > 60)
+			{
+				bar.className = "progress-bar progress-bar-warning";
+				$('#p-warning-div').html('');
+			}
+			else
+			{
+				bar.className = "progress-bar progress-bar-success";
+				$('#p-warning-div').html('');
+			}
+					
+		}		 
+	 }
+	 
+
+	
 	
 });
