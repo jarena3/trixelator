@@ -230,6 +230,23 @@ function render()
 	var time = end - start;
 	console.log('Execution time: ' + time);
 }
+
+	//facebook post button
+	$('#fb-d-btn').click(function() 
+	{
+		FB.api(
+			"/me/photos",
+			"POST",
+			{
+				"url": outputCanvas.toDataURL('image/jpg').replace("image/jpg", "image/octet-stream")
+			},
+			function (response) {
+			  if (response && !response.error) {
+				alert("Trixelation posted to facebook!");
+			  }
+			}
+		);
+	});
 	
 	//define a coordinate
 	function coord (x, y) 
