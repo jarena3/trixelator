@@ -230,7 +230,7 @@ function render()
 	var time = end - start;
 	console.log('Execution time: ' + time);
 }
-
+/*
 	//facebook post button
 	$('#fb-d-btn').click(function() 
 	{
@@ -246,7 +246,7 @@ function render()
 			  }
 			}
 		);
-	});
+	});*/
 	
 	//define a coordinate
 	function coord (x, y) 
