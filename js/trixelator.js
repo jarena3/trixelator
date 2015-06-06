@@ -1,5 +1,4 @@
 /*
- *
  * Trixelator by John Arena III
  * jarena3.github.io/trixelator
  * Copyright 2015
@@ -46,7 +45,6 @@ var ip_ctx = inputPreviewCanvas.getContext('2d');
 var inputImage;
 
 //globals for the options
-var outputSizeMultiplier = 1;
 var cellSize = 20;
 var colorSampleRadius = 1;
 var sliceCount = 1;
@@ -74,12 +72,6 @@ var op_ctx = outputPreviewCanvas.getContext('2d');
 	});
 
 	
-	var os_slider = $('#output-size-slider').slider({
-		formatter: function(value) {
-			return 'Output Image Scale: x' + value;
-		}
-	});
-
 //get image from loader
 function handleImage(e){
     var reader = new FileReader();
@@ -159,16 +151,13 @@ function render()
 	fill = $('input[name="fill"]:checked').val()
 	
 	cellSize = $('#cell-size-slider').slider().slider('getValue');
-	outputSizeMultiplier = $('#output-size-slider').slider().slider('getValue');
 	
-	outputCanvas.width = outputPreviewCanvas.width = inputImage.width * outputSizeMultiplier;
-	outputCanvas.height = outputPreviewCanvas.height = inputImage.height * outputSizeMultiplier;
+	outputCanvas.width = outputPreviewCanvas.width = inputImage.width;
+	outputCanvas.height = outputPreviewCanvas.height = inputImage.height;
 		
 	var noiseImg = document.getElementById("noise");
 	noisePattern = o_ctx.createPattern(noiseImg, "repeat");
 			
-	o_ctx.scale(outputSizeMultiplier, outputSizeMultiplier);
-	
 	
 	switch ($('input[name="cell-shape"]:checked').val())
 	{

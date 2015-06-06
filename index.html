@@ -23,6 +23,7 @@
 		<!-- Trixelator -->
 		<script src="js/trixelator.js"></script>
 		<script src="js/trixelator-page.js"></script>
+		<script src="js/canvas-to-blob.js"></script>
 		<link href="css/trixelator.css" rel="stylesheet" type="text/css">
 		<!-- Google -->
 		<link href='http://fonts.googleapis.com/css?family=Coda:400,200' rel='stylesheet' type='text/css'>
@@ -93,7 +94,9 @@
 				<!--///--options--------------------------------------------->
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-5">
+						<div class="col-md-3">
+						</div>
+						<div class="col-md-3">
 							<div id="cs_in" class="panel panel-primary">
 								<div class="panel-heading">Cell Size</div>
 								<div class="panel-body">
@@ -101,15 +104,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-5">
-							<div id="os_in" class="panel panel-primary">
-								<div class="panel-heading">Output Image Size</div>
-								<div class="panel-body">
-									<input id="output-size-slider" data-slider-id='os-slider' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1" data-slider-handle="square"/>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-2" id="other-options">
+						<div class="col-md-3" id="other-options">
 							<div class="panel panel-primary">
 								<div class="panel-heading">Output Format</div>
 								<div class="panel-body">
